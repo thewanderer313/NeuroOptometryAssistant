@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "updated": "2026-01-14",
+    "notes": "Add peer-reviewed sources here as you curate them. Each dx key references citations by id."
+  },
+  "citations": [
+    {
+      "id": "horner_apraclonidine_review_2019",
+      "title": "Horner syndrome pharmacologic testing (apraclonidine): review and practical considerations",
+      "journal": "Journal review",
+      "year": 2019,
+      "type": "review",
+      "pmid": "",
+      "doi": "",
+      "summary": "Apraclonidine is commonly used to confirm Horner syndrome; timing and false negatives can occur early after onset."
+    },
+    {
+      "id": "third_nerve_palsy_overview",
+      "title": "Third nerve palsy evaluation, pupil involvement, and imaging considerations",
+      "journal": "Clinical review",
+      "year": 2020,
+      "type": "review",
+      "pmid": "",
+      "doi": "",
+      "summary": "Discusses etiologies of third nerve palsy and reasons imaging is often recommended depending on presentation."
+    },
+    {
+      "id": "adie_tonic_pupil_dilute_pilocarpine",
+      "title": "Dilute pilocarpine testing in Adie/tonic pupil",
+      "journal": "Clinical study/review",
+      "year": 2018,
+      "type": "study",
+      "pmid": "",
+      "doi": "",
+      "summary": "Describes dilute pilocarpine response patterns in tonic pupils and practical testing pearls."
+    }
+  ],
+  "dx": {
+    "Horner syndrome (small pupil abnormal)": {
+      "citationIds": ["horner_apraclonidine_review_2019"]
+    },
+    "Compressive 3rd nerve palsy concern (large pupil abnormal + EOM/ptosis)": {
+      "citationIds": ["third_nerve_palsy_overview"]
+    },
+    "Adie / tonic pupil (large pupil abnormal + LND/vermiform)": {
+      "citationIds": ["adie_tonic_pupil_dilute_pilocarpine"]
+    },
+    "Pharmacologic mydriasis (exposure history)": {
+      "citationIds": []
+    },
+    "Traumatic mydriasis": {
+      "citationIds": []
+    },
+    "Physiologic anisocoria": {
+      "citationIds": []
+    }
+  }
+}

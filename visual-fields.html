@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Visual Fields Module</title>
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>Neuro-Ophtho Assistant</h1>
+      <p class="sub">Visual fields module • updates the shared differential in real time</p>
+    </div>
+    <div class="pill">Local • No network calls</div>
+  </header>
+
+  <!-- Full-width top tabs (your current layout) -->
+  <div class="tabbar">
+    <nav class="tabbarInner">
+      <a href="./index.html">Home</a>
+      <a href="./anisocoria.html">Anisocoria</a>
+      <a href="./eom.html">EOM / Lesion</a>
+      <a href="./visual-fields.html">Visual Fields</a>
+    </nav>
+  </div>
+
+  <div class="shell">
+    <!-- SIDEBAR (persistent differential) -->
+    <aside class="sidebar">
+      <!-- (sidebar nav hidden by CSS; keep sidebar cards only) -->
+
+      <section class="card">
+        <h2>Session</h2>
+        <div class="small"><strong id="sbPatient">Untitled</strong></div>
+        <div class="small" id="sbUpdated"></div>
+
+        <h3>Pupil pattern</h3>
+        <div class="small">Anisocoria (Light): <strong id="sbAnisL">—</strong></div>
+        <div class="small">Anisocoria (Dark): <strong id="sbAnisD">—</strong></div>
+        <div class="small">Pattern: <strong id="sbPattern">—</strong></div>
+
+        <div class="btnRow">
+          <button class="ghost" id="sbReset">Reset session</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Urgency</h2>
+        <div class="callout" id="sbUrgency" data-level="none">—</div>
+      </section>
+
+      <section class="card">
+        <h2>Top Differential</h2>
+        <div id="sbDx"></div>
+      </section>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <section class="card">
+        <h2>Visual Field Interpretation</h2>
+        <div class="small">
+          Enter the high-yield pattern features. This module updates the shared differential and localization prompts
+          automatically.
+        </div>
+
+        <h3>Test context</h3>
+        <div class="row">
+          <label>Test type
+            <select id="vfTestType">
+              <option value="">—</option>
+              <option value="HVF_24-2">HVF 24-2</option>
+              <option value="HVF_30-2">HVF 30-2</option>
+              <option value="HVF_10-2">HVF 10-2</option>
+              <option value="Goldmann">Goldmann</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+
+          <label>Reliability
+            <select id="vfReliability">
+              <option value="">—</option>
+              <option value="good">Good</option>
+              <option value="borderline">Borderline</option>
+              <option value="poor">Poor</option>
+            </select>
+          </label>
+
+          <label class="check"><input type="checkbox" id="vfNewDefect"> New defect vs baseline</label>
+          <label class="check"><input type="checkbox" id="vfSymptoms"> Visual complaint present</label>
+        </div>
+
+        <h3>Pattern features</h3>
+        <div class="row">
+          <label>Laterality
+            <select id="vfLaterality">
+              <option value="">—</option>
+              <option value="mono">Monocular</option>
+              <option value="binocular">Binocular / both eyes</option>
+              <option value="unknown">Unclear</option>
+            </select>
+          </label>
+
+          <label>Respects vertical meridian?
+            <select id="vfVertical">
+              <option value="">—</option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </label>
+
+          <label>Respects horizontal meridian?
+            <select id="vfHorizontal">
+              <option value="">—</option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="row">
+          <label class="check"><input type="checkbox" id="vfHomonymous"> Homonymous pattern suspected</label>
+          <label class="check"><input type="checkbox" id="vfBitemporal"> Bitemporal pattern suspected</label>
+          <label class="check"><input type="checkbox" id="vfAltitudinal"> Altitudinal pattern suspected</label>
+          <label class="check"><input type="checkbox" id="vfCentralScotoma"> Central scotoma suspected</label>
+        </div>
+
+        <h3>Helpful descriptors</h3>
+        <div class="row">
+          <label>Congruity
+            <select id="vfCongruity">
+              <option value="">—</option>
+              <option value="low">Low</option>
+              <option value="moderate">Moderate</option>
+              <option value="high">High</option>
+            </select>
+          </label>
+
+          <label>Notes (stored in session)
+            <input type="text" id="vfNotes"
+              placeholder="e.g., dense superior temporal defect OS; reliability borderline..." />
+          </label>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="k">Quick localization hint</div>
+            <div class="v small" id="vfLocalize">—</div>
+          </div>
+          <div class="metric">
+            <div class="k">Quality reminder</div>
+            <div class="v small" id="vfQuality">—</div>
+          </div>
+          <div class="metric">
+            <div class="k">Next discriminator</div>
+            <div class="v small" id="vfNext">—</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">Tip: enter VF pattern here, then flip to Anisocoria/EOM and watch the differential adapt.
+  </footer>
+
+  <script type="module" src="./js/visual-fields.page.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Neuro-Ophtho Assistant (Local)</title>
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>Neuro-Ophtho Assistant</h1>
+      <p class="sub">Local multi-module clinical support • shared session • persistent differential sidebar</p>
+    </div>
+    <div class="pill">Local • No network calls</div>
+  </header>
+
+  <div class="tabbar">
+    <nav class="tabbarInner">
+      <a href="./index.html">Home</a>
+      <a href="./anisocoria.html">Anisocoria</a>
+      <a href="./eom.html">EOM / Lesion</a>
+      <a href="./visual-fields.html">Visual Fields</a>
+    </nav>
+  </div>
+
+  <div class="shell">
+    <!-- SIDEBAR (persistent across all pages) -->
+    <aside class="sidebar">
+      <div class="nav">
+        <a href="./index.html">Home</a>
+        <a href="./anisocoria.html">Anisocoria</a>
+        <a href="./eom.html">EOM / Lesion</a>
+        <a href="./visual-fields.html">Visual Fields</a>
+      </div>
+
+      <section class="card">
+        <h2>Session</h2>
+        <div class="small"><strong id="sbPatient">Untitled</strong></div>
+        <div class="small" id="sbUpdated"></div>
+
+        <h3>Pupil pattern</h3>
+        <div class="small">Anisocoria (Light): <strong id="sbAnisL">—</strong></div>
+        <div class="small">Anisocoria (Dark): <strong id="sbAnisD">—</strong></div>
+        <div class="small">Pattern: <strong id="sbPattern">—</strong></div>
+
+        <div class="btnRow">
+          <button class="ghost" id="sbReset">Reset session</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Urgency</h2>
+        <div class="callout" id="sbUrgency" data-level="none">—</div>
+      </section>
+
+      <section class="card">
+        <h2>Top Differential</h2>
+        <div id="sbDx"></div>
+      </section>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <section class="card">
+        <h2>Start here</h2>
+        <div class="small">
+          Choose a module. All modules share one live clinical session (stored locally), so findings entered on any page
+          immediately refine the same differential list in the sidebar.
+        </div>
+
+        <h3>Modules</h3>
+        <div class="row">
+          <a class="check" href="./anisocoria.html" style="text-decoration:none;">
+            <span style="font-weight:950;">Anisocoria / Pupils</span>
+            <span class="small" style="display:block; margin-top:6px; color:var(--muted);">
+              Threshold 0.5 mm • pattern in light vs dark • key discriminators
+            </span>
+          </a>
+
+          <a class="check" href="./eom.html" style="text-decoration:none;">
+            <span style="font-weight:950;">Extra-ocular Motility / Lesion localization</span>
+            <span class="small" style="display:block; margin-top:6px; color:var(--muted);">
+              Diplopia, ptosis, comitance • early cranial neuropathy hooks (starter)
+            </span>
+          </a>
+
+          <a class="check" href="./visual-fields.html" style="text-decoration:none;">
+            <span style="font-weight:950;">Visual Fields</span>
+            <span class="small" style="display:block; margin-top:6px; color:var(--muted);">
+              Placeholder page • next build: pattern recognition and localization prompts
+            </span>
+          </a>
+        </div>
+
+        <h3>How it works</h3>
+        <div class="small">
+          <ul>
+            <li><strong>Shared session:</strong> your entries persist across pages using localStorage.</li>
+            <li><strong>Unified differential engine:</strong> as you add findings, the sidebar updates in real time.
+            </li>
+            <li><strong>Lane workflow:</strong> keep one module open while the sidebar tracks the evolving thought
+              process.</li>
+          </ul>
+        </div>
+
+        <h3>Run locally</h3>
+        <div class="small">
+          From the project folder, start a simple local server:
+          <div class="callout" data-level="info"><code>python -m http.server 8000</code></div>
+          Then open: <code>http://localhost:8000/index.html</code>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">
+    Tip: open <strong>Anisocoria</strong> and <strong>EOM</strong> in separate tabs—both stay synchronized through the
+    shared session.
+  </footer>
+
+  <script type="module">
+    import { initSidebar } from "./js/sidebar.js";
+    initSidebar("./index.html");
+  </script>
+</body>
+
+</html>

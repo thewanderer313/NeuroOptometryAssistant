@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EOM / Lesion Location (Starter)</title>
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>Neuro-Ophtho Assistant</h1>
+      <p class="sub">EOM module (starter) • updates global differential in real time</p>
+    </div>
+    <div class="pill">Local • No network calls</div>
+  </header>
+
+  <div class="tabbar">
+    <nav class="tabbarInner">
+      <a href="./index.html">Home</a>
+      <a href="./anisocoria.html">Anisocoria</a>
+      <a href="./eom.html">EOM / Lesion</a>
+      <a href="./visual-fields.html">Visual Fields</a>
+    </nav>
+  </div>
+
+  <div class="shell">
+    <!-- SIDEBAR (same structure as anisocoria) -->
+    <aside class="sidebar">
+      <div class="nav">
+        <a href="./anisocoria.html">Anisocoria</a>
+        <a href="./eom.html">EOM / Lesion</a>
+        <a href="./visual-fields.html">Visual Fields</a>
+      </div>
+
+      <section class="card">
+        <h2>Session</h2>
+        <div class="small"><strong id="sbPatient">Untitled</strong></div>
+        <div class="small" id="sbUpdated"></div>
+
+        <h3>Pupil pattern</h3>
+        <div class="small">Anisocoria (Light): <strong id="sbAnisL">—</strong></div>
+        <div class="small">Anisocoria (Dark): <strong id="sbAnisD">—</strong></div>
+        <div class="small">Pattern: <strong id="sbPattern">—</strong></div>
+
+        <div class="btnRow">
+          <button class="ghost" id="sbReset">Reset session</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Urgency</h2>
+        <div class="callout" id="sbUrgency" data-level="none">—</div>
+      </section>
+
+      <section class="card">
+        <h2>Top Differential</h2>
+        <div id="sbDx"></div>
+      </section>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <section class="card">
+        <h2>EOM / Lesion Localization (Starter)</h2>
+        <div class="small">
+          This starter page only captures a few high-impact inputs so you can see cross-module behavior immediately.
+          We’ll expand into full EOM grids, deviation entry, incomitance, torsion, INO, MG, etc.
+        </div>
+
+        <h3>Key symptoms</h3>
+        <div class="row">
+          <label class="check"><input type="checkbox" id="diplopia"> Diplopia present</label>
+          <label class="check"><input type="checkbox" id="ptosis"> Ptosis present</label>
+        </div>
+
+        <h3>Gross motility flags</h3>
+        <div class="row">
+          <label class="check"><input type="checkbox" id="abductionDeficit"> Abduction deficit suspected</label>
+          <label class="check"><input type="checkbox" id="adductionDeficit"> Adduction deficit suspected</label>
+          <label class="check"><input type="checkbox" id="verticalLimitation"> Vertical limitation suspected</label>
+        </div>
+
+        <h3>Comitance</h3>
+        <div class="row">
+          <label>Comitant?
+            <select id="comitant">
+              <option value="">—</option>
+              <option value="true">Comitant</option>
+              <option value="false">Incomitant</option>
+            </select>
+          </label>
+        </div>
+
+        <h3>Notes</h3>
+        <div class="row">
+          <label style="flex:1; min-width:260px;">
+            <span class="small">Free text (stored in session)</span>
+            <input type="text" id="eomNotes" placeholder="e.g., worse in R gaze; new onset; fatigable..." />
+          </label>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">Any changes here instantly update the same differential used by the anisocoria module.</footer>
+
+  <script type="module" src="./js/eom.page.js"></script>
+</body>
+
+</html>
