@@ -15,6 +15,20 @@ function absDiff(a, b) {
   return Math.abs(a - b);
 }
 
+function hasLightPair(session) {
+  const p = session.pupils || {};
+  return (p.odLight !== null && p.odLight !== "" && p.odLight !== undefined) &&
+    (p.osLight !== null && p.osLight !== "" && p.osLight !== undefined);
+}
+function hasDarkPair(session) {
+  const p = session.pupils || {};
+  return (p.odDark !== null && p.odDark !== "" && p.odDark !== undefined) &&
+    (p.osDark !== null && p.osDark !== "" && p.osDark !== undefined);
+}
+function hasFullPupilDataset(session) {
+  return hasLightPair(session) && hasDarkPair(session);
+}
+
 export function deriveFeatures(session) {
   const t = session.triage || {};
   const p = session.pupils || {};
@@ -226,15 +240,28 @@ export function scoreDifferential(f) {
 
 export function compute(session) {
   const features = deriveFeatures(session);
-  const differential = scoreDifferential(features);
+
+  // Gate: don’t show pupil-driven differentials until light+dark pairs exist
+  const pupilReady = hasFullPupilDataset(session);
+
+  // Compute differential only if we have enough data OR if a non-pupil module
+  // is strongly populated later (we’ll expand this logic as EOM/VF grow).
+  const differential = pupilReady ? scoreDifferential(features) : [];
 
   // Unified global urgency banner (starter)
   let urgency = {
     level: "none",
-    text: `Threshold ${CONFIG.ANISO_THRESHOLD_MM.toFixed(1)} mm • Enter findings to build a live differential.`
+    text: "Enter findings to build a live differential."
   };
 
-  // Pupil + EOM urgent pattern
+  if (!pupilReady) {
+    urgency = {
+      level: "none",
+      text: "Pupils: enter BOTH light and dark measurements to generate pupil-based differentials."
+    };
+  }
+
+  // Keep your urgent patterns (rare but important) as alerts, not as default top dx
   if (features.dominance === "light" && (features.ptosis || features.diplopia) &&
     (features.acute || features.painful || features.neuroSx)) {
     urgency = {
@@ -261,3 +288,4 @@ export function compute(session) {
 
   return { features, differential, urgency };
 }
+
