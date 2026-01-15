@@ -1014,6 +1014,369 @@ section.card[id] {
   color: #c084fc;
 }
 
+/* ===== IN-PAGE TABS ===== */
+.page-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0;
+}
+
+.page-tab {
+  padding: 12px 20px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  top: 1px;
+}
+
+.page-tab:hover {
+  color: var(--text);
+  background: rgba(110, 231, 183, 0.05);
+}
+
+.page-tab.active {
+  color: var(--accent);
+  background: var(--card);
+  border-color: var(--line);
+  border-bottom: 1px solid var(--card);
+}
+
+.tab-content {
+  display: none;
+  animation: fadeIn 0.2s ease;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== TRIAGE BAR ===== */
+.triage-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  background: rgba(251, 113, 133, 0.08);
+  border: 1px solid rgba(251, 113, 133, 0.25);
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.triage-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--danger);
+  margin-right: 4px;
+}
+
+.triage-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #0e1017;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.triage-chip:hover {
+  border-color: var(--danger);
+  color: var(--text);
+}
+
+.triage-chip:has(input:checked) {
+  background: rgba(251, 113, 133, 0.2);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.triage-chip input {
+  margin: 0;
+}
+
+/* ===== PUPIL ENTRY SECTION ===== */
+.pupil-entry-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pupil-diagram-compact {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  padding: 16px 0;
+}
+
+/* ===== MEASUREMENT GRID ===== */
+.measurement-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.measurement-group {
+  background: #0e1017;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.measurement-group h4 {
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.input-row {
+  display: flex;
+  gap: 12px;
+}
+
+.compact-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  flex: 1;
+}
+
+.compact-label input[type="number"],
+.compact-label select {
+  min-width: 0;
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1.1rem;
+}
+
+.aniso-readout {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: rgba(110, 231, 183, 0.08);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.aniso-readout strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ===== REACTIVITY ROW ===== */
+.reactivity-row {
+  display: flex;
+  gap: 16px;
+}
+
+.reactivity-row .compact-label {
+  flex: 1;
+}
+
+/* ===== GUIDANCE PANEL ===== */
+.guidance-panel {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(96, 165, 250, 0.08);
+  border: 1px solid rgba(96, 165, 250, 0.25);
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+.guidance-item {
+  flex: 1;
+}
+
+.guidance-item.full-width {
+  flex: none;
+  width: 100%;
+}
+
+.guidance-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--info);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.guidance-value {
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+/* ===== CHECKBOX GRID ===== */
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.checkbox-grid .check {
+  margin: 0;
+}
+
+/* ===== EYE FINDINGS GRID ===== */
+.eye-findings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 12px 0;
+}
+
+.eye-findings-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.eye-findings-col h4 {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.eye-findings-col .check {
+  margin: 0;
+}
+
+/* ===== PRESET GRID ===== */
+.preset-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.preset-grid .preset-btn {
+  min-width: 90px;
+  flex: 0 0 auto;
+}
+
+/* ===== SYMPTOMS BAR (EOM) ===== */
+.symptoms-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  background: rgba(110, 231, 183, 0.06);
+  border: 1px solid rgba(110, 231, 183, 0.2);
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.symptom-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #0e1017;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.symptom-chip:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.symptom-chip:has(input:checked) {
+  background: rgba(110, 231, 183, 0.15);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.symptom-chip--urgent:has(input:checked) {
+  background: rgba(251, 113, 133, 0.2);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.symptom-chip input {
+  margin: 0;
+}
+
+/* ===== CONTEXT BAR (VF) ===== */
+.context-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  background: rgba(96, 165, 250, 0.06);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.context-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #0e1017;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.context-chip:hover {
+  border-color: var(--info);
+  color: var(--text);
+}
+
+.context-chip:has(input:checked) {
+  background: rgba(96, 165, 250, 0.15);
+  border-color: var(--info);
+  color: var(--info);
+}
+
+.context-chip input {
+  margin: 0;
+}
+
+/* ===== GRID HINT ===== */
+.grid-hint {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 8px 0 16px;
+}
+
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
 @media (max-width: 980px) {
   .preset-row {
@@ -1036,5 +1399,34 @@ section.card[id] {
 
   .vf-pattern-grid {
     grid-template-columns: 1fr;
+  }
+
+  .page-tabs {
+    flex-wrap: wrap;
+  }
+
+  .page-tab {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+  }
+
+  .measurement-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .checkbox-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .eye-findings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .guidance-panel {
+    flex-direction: column;
+  }
+
+  .reactivity-row {
+    flex-direction: column;
   }
 }

@@ -131,7 +131,31 @@ function applyPreset(presetType) {
     }
 }
 
+// Tab switching
+function initTabs() {
+    const tabs = document.querySelectorAll(".page-tab");
+    const contents = document.querySelectorAll(".tab-content");
+
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            const targetId = `tab-${tab.dataset.tab}`;
+
+            // Update active tab
+            tabs.forEach(t => t.classList.remove("active"));
+            tab.classList.add("active");
+
+            // Update visible content
+            contents.forEach(c => {
+                c.classList.toggle("active", c.id === targetId);
+            });
+        });
+    });
+}
+
 function bind() {
+    // Initialize tabs
+    initTabs();
+
     $("vfTestType").addEventListener("change", e => sessionStore.set("visualFields.testType", e.target.value));
     $("vfReliability").addEventListener("change", e => sessionStore.set("visualFields.reliability", e.target.value));
     $("vfNewDefect").addEventListener("change", e => sessionStore.set("visualFields.newDefect", e.target.checked));

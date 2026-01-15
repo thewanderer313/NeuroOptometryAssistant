@@ -65,145 +65,145 @@
 
     <!-- MAIN -->
     <main class="main">
-      <div class="jumpbar">
-        <span class="jumpbar-title">Quick Jump</span>
-        <a href="#section-presets">Presets</a>
-        <a href="#section-context">Test context</a>
-        <a href="#section-pattern">Pattern features</a>
-        <a href="#section-descriptors">Descriptors</a>
-        <a href="#section-guidance">Guidance</a>
-      </div>
       <section class="card">
         <h2>Visual Field Interpretation</h2>
-        <div class="small">
-          Enter the high-yield pattern features. This module updates the shared differential and localization prompts
-          automatically.
+
+        <!-- In-page tab navigation -->
+        <div class="page-tabs">
+          <button class="page-tab active" data-tab="pattern">Pattern</button>
+          <button class="page-tab" data-tab="context">Test Context</button>
+          <button class="page-tab" data-tab="presets">Presets</button>
         </div>
 
-        <!-- Quick Presets -->
-        <div class="section-block presets-section" id="section-presets">
-          <h3>Quick Entry Presets</h3>
-          <div class="preset-row">
-            <button class="preset-btn" id="presetBitemporal" title="Chiasmal lesion pattern">
+        <!-- Tab: Pattern -->
+        <div class="tab-content active" id="tab-pattern">
+          <!-- Context bar -->
+          <div class="context-bar">
+            <label class="context-chip"><input type="checkbox" id="vfNewDefect"> New defect</label>
+            <label class="context-chip"><input type="checkbox" id="vfSymptoms"> Visual complaint</label>
+          </div>
+
+          <h3>Pattern Type</h3>
+          <div class="checkbox-grid">
+            <label class="check"><input type="checkbox" id="vfHomonymous"> Homonymous</label>
+            <label class="check"><input type="checkbox" id="vfBitemporal"> Bitemporal</label>
+            <label class="check"><input type="checkbox" id="vfAltitudinal"> Altitudinal</label>
+            <label class="check"><input type="checkbox" id="vfCentralScotoma"> Central scotoma</label>
+          </div>
+
+          <h3>Meridian Respect</h3>
+          <div class="input-row">
+            <label class="compact-label">
+              Laterality
+              <select id="vfLaterality">
+                <option value="">--</option>
+                <option value="mono">Monocular</option>
+                <option value="binocular">Binocular</option>
+                <option value="unknown">Unclear</option>
+              </select>
+            </label>
+            <label class="compact-label">
+              Vertical meridian
+              <select id="vfVertical">
+                <option value="">--</option>
+                <option value="true">Respects</option>
+                <option value="false">Does not respect</option>
+              </select>
+            </label>
+            <label class="compact-label">
+              Horizontal meridian
+              <select id="vfHorizontal">
+                <option value="">--</option>
+                <option value="true">Respects</option>
+                <option value="false">Does not respect</option>
+              </select>
+            </label>
+          </div>
+
+          <!-- Guidance panel -->
+          <div class="guidance-panel">
+            <div class="guidance-item">
+              <span class="guidance-label">Localization</span>
+              <span class="guidance-value" id="vfLocalize">Select pattern features</span>
+            </div>
+            <div class="guidance-item">
+              <span class="guidance-label">Next step</span>
+              <span class="guidance-value" id="vfNext">--</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Test Context -->
+        <div class="tab-content" id="tab-context">
+          <h3>Test Information</h3>
+          <div class="input-row">
+            <label class="compact-label">
+              Test type
+              <select id="vfTestType">
+                <option value="">--</option>
+                <option value="HVF_24-2">HVF 24-2</option>
+                <option value="HVF_30-2">HVF 30-2</option>
+                <option value="HVF_10-2">HVF 10-2</option>
+                <option value="Goldmann">Goldmann</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+            <label class="compact-label">
+              Reliability
+              <select id="vfReliability">
+                <option value="">--</option>
+                <option value="good">Good</option>
+                <option value="borderline">Borderline</option>
+                <option value="poor">Poor</option>
+              </select>
+            </label>
+            <label class="compact-label">
+              Congruity
+              <select id="vfCongruity">
+                <option value="">--</option>
+                <option value="low">Low</option>
+                <option value="moderate">Moderate</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+          </div>
+
+          <h3>Notes</h3>
+          <label class="full">
+            <input type="text" id="vfNotes" placeholder="e.g., dense superior temporal defect OS..." />
+          </label>
+
+          <div class="guidance-panel">
+            <div class="guidance-item full-width">
+              <span class="guidance-label">Quality</span>
+              <span class="guidance-value" id="vfQuality">Set reliability to guide interpretation</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Presets -->
+        <div class="tab-content" id="tab-presets">
+          <p class="section-desc">Quick-fill common visual field patterns for testing or demonstration.</p>
+
+          <h3>VF Patterns</h3>
+          <div class="preset-grid">
+            <button class="preset-btn" id="presetBitemporal" title="Chiasmal lesion">
               <span class="preset-icon">⬅➡</span>
               <span class="preset-label">Bitemporal</span>
             </button>
-            <button class="preset-btn" id="presetHomonymous" title="Retrochiasmal lesion pattern">
+            <button class="preset-btn" id="presetHomonymous" title="Retrochiasmal lesion">
               <span class="preset-icon">◀◀</span>
               <span class="preset-label">Homonymous</span>
             </button>
-            <button class="preset-btn" id="presetAltitudinal" title="AION / Optic nerve pattern">
+            <button class="preset-btn" id="presetAltitudinal" title="AION pattern">
               <span class="preset-icon">▬</span>
               <span class="preset-label">Altitudinal</span>
             </button>
-            <button class="preset-btn" id="presetCentral" title="Optic neuritis / macular pattern">
+            <button class="preset-btn" id="presetCentral" title="Optic neuritis">
               <span class="preset-icon">●</span>
-              <span class="preset-label">Central Scotoma</span>
+              <span class="preset-label">Central</span>
             </button>
           </div>
-        </div>
-
-        <div class="section-block section-block--primary" id="section-context">
-        <h3>Test context</h3>
-        <p class="section-desc">Set test type and reliability before interpreting patterns.</p>
-        <div class="row">
-          <label>Test type
-            <select id="vfTestType">
-              <option value="">—</option>
-              <option value="HVF_24-2">HVF 24-2</option>
-              <option value="HVF_30-2">HVF 30-2</option>
-              <option value="HVF_10-2">HVF 10-2</option>
-              <option value="Goldmann">Goldmann</option>
-              <option value="Other">Other</option>
-            </select>
-          </label>
-
-          <label>Reliability
-            <select id="vfReliability">
-              <option value="">—</option>
-              <option value="good">Good</option>
-              <option value="borderline">Borderline</option>
-              <option value="poor">Poor</option>
-            </select>
-          </label>
-
-          <label class="check"><input type="checkbox" id="vfNewDefect"> New defect vs baseline</label>
-          <label class="check"><input type="checkbox" id="vfSymptoms"> Visual complaint present</label>
-        </div>
-        </div>
-
-        <div class="section-block section-block--primary" id="section-pattern">
-        <h3>Pattern features</h3>
-        <p class="section-desc">Use laterality and meridian respect, then mark hallmark patterns.</p>
-        <div class="row">
-          <label>Laterality
-            <select id="vfLaterality">
-              <option value="">—</option>
-              <option value="mono">Monocular</option>
-              <option value="binocular">Binocular / both eyes</option>
-              <option value="unknown">Unclear</option>
-            </select>
-          </label>
-
-          <label>Respects vertical meridian?
-            <select id="vfVertical">
-              <option value="">—</option>
-              <option value="true">Yes</option>
-              <option value="false">No</option>
-            </select>
-          </label>
-
-          <label>Respects horizontal meridian?
-            <select id="vfHorizontal">
-              <option value="">—</option>
-              <option value="true">Yes</option>
-              <option value="false">No</option>
-            </select>
-          </label>
-        </div>
-        <div class="row">
-          <label class="check"><input type="checkbox" id="vfHomonymous"> Homonymous pattern suspected</label>
-          <label class="check"><input type="checkbox" id="vfBitemporal"> Bitemporal pattern suspected</label>
-          <label class="check"><input type="checkbox" id="vfAltitudinal"> Altitudinal pattern suspected</label>
-          <label class="check"><input type="checkbox" id="vfCentralScotoma"> Central scotoma suspected</label>
-        </div>
-        </div>
-
-        <div class="section-block" id="section-descriptors">
-        <h3>Helpful descriptors</h3>
-        <div class="row">
-          <label>Congruity
-            <select id="vfCongruity">
-              <option value="">—</option>
-              <option value="low">Low</option>
-              <option value="moderate">Moderate</option>
-              <option value="high">High</option>
-            </select>
-          </label>
-
-          <label>Notes (stored in session)
-            <input type="text" id="vfNotes"
-              placeholder="e.g., dense superior temporal defect OS; reliability borderline..." />
-          </label>
-        </div>
-        </div>
-
-        <div class="section-block" id="section-guidance">
-        <h3>Guidance</h3>
-        <div class="metrics">
-          <div class="metric">
-            <div class="k">Quick localization hint</div>
-            <div class="v small" id="vfLocalize">—</div>
-          </div>
-          <div class="metric">
-            <div class="k">Quality reminder</div>
-            <div class="v small" id="vfQuality">—</div>
-          </div>
-          <div class="metric">
-            <div class="k">Next discriminator</div>
-            <div class="v small" id="vfNext">—</div>
-          </div>
-        </div>
         </div>
       </section>
     </main>

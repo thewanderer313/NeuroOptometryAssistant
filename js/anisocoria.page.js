@@ -172,11 +172,24 @@ function syncFromSession(session) {
   $("neuroSx").checked = !!session.triage.neuroSx;
   $("trauma").checked = !!session.triage.trauma;
 
-  // pupils
-  $("odLight").value = session.pupils.odLight ?? "";
-  $("osLight").value = session.pupils.osLight ?? "";
-  $("odDark").value  = session.pupils.odDark ?? "";
-  $("osDark").value  = session.pupils.osDark ?? "";
+  // pupils - only update if not focused (to preserve cursor position while typing)
+  const odLightEl = $("odLight");
+  const osLightEl = $("osLight");
+  const odDarkEl = $("odDark");
+  const osDarkEl = $("osDark");
+
+  if (document.activeElement !== odLightEl) {
+    odLightEl.value = session.pupils.odLight ?? "";
+  }
+  if (document.activeElement !== osLightEl) {
+    osLightEl.value = session.pupils.osLight ?? "";
+  }
+  if (document.activeElement !== odDarkEl) {
+    odDarkEl.value = session.pupils.odDark ?? "";
+  }
+  if (document.activeElement !== osDarkEl) {
+    osDarkEl.value = session.pupils.osDark ?? "";
+  }
 
   $("odLightRxn").value = session.pupils.odLightRxn || "";
   $("osLightRxn").value = session.pupils.osLightRxn || "";
@@ -380,7 +393,31 @@ function applyPreset(presetType) {
   }
 }
 
+// Tab switching
+function initTabs() {
+  const tabs = document.querySelectorAll(".page-tab");
+  const contents = document.querySelectorAll(".tab-content");
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      const targetId = `tab-${tab.dataset.tab}`;
+
+      // Update active tab
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      // Update visible content
+      contents.forEach(c => {
+        c.classList.toggle("active", c.id === targetId);
+      });
+    });
+  });
+}
+
 function bind() {
+  // Initialize tabs
+  initTabs();
+
   // triage checkboxes
   $("acuteOnset").addEventListener("change", e => sessionStore.set("triage.acuteOnset", e.target.checked));
   $("painful").addEventListener("change", e => sessionStore.set("triage.painful", e.target.checked));

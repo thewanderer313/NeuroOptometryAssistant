@@ -70,50 +70,247 @@
 
     <!-- MAIN -->
     <main class="main">
-      <div class="jumpbar">
-        <span class="jumpbar-title">Quick Jump</span>
-        <a href="#section-presets">Presets</a>
-        <a href="#section-triage">Triage</a>
-        <a href="#section-pupils">Pupil sizes</a>
-        <a href="#section-rapd">RAPD</a>
-        <a href="#section-signs">Special signs</a>
-        <a href="#section-guidance">Guidance</a>
-        <a href="#section-optic">Optic nerve</a>
-      </div>
       <section class="card">
         <h2>Anisocoria / Pupils</h2>
 
-        <!-- Quick Presets -->
-          <div class="section-block presets-section" id="section-presets">
-          <h3>Quick Entry Presets</h3>
-          <div class="preset-row">
-            <button class="preset-btn" id="presetPhysiologic" title="Normal variant - equal in light/dark">
+        <!-- In-page tab navigation -->
+        <div class="page-tabs">
+          <button class="page-tab active" data-tab="measurements">Measurements</button>
+          <button class="page-tab" data-tab="signs">Signs & RAPD</button>
+          <button class="page-tab" data-tab="optic">Optic Nerve</button>
+          <button class="page-tab" data-tab="presets">Presets</button>
+        </div>
+
+        <!-- Tab: Measurements -->
+        <div class="tab-content active" id="tab-measurements">
+          <!-- Triage alerts -->
+          <div class="triage-bar">
+            <span class="triage-label">Triage flags:</span>
+            <label class="triage-chip"><input type="checkbox" id="acuteOnset"> Acute</label>
+            <label class="triage-chip"><input type="checkbox" id="painful"> Pain</label>
+            <label class="triage-chip"><input type="checkbox" id="neuroSx"> Neuro Sx</label>
+            <label class="triage-chip"><input type="checkbox" id="trauma"> Trauma</label>
+          </div>
+
+          <!-- Visual Pupil Diagram -->
+          <div class="pupil-entry-section">
+            <div class="pupil-diagram-compact">
+              <div class="eye-container">
+                <div class="eye-label">OD (Right)</div>
+                <div class="eye" id="eyeOD">
+                  <div class="iris">
+                    <div class="pupil" id="pupilOD"></div>
+                  </div>
+                </div>
+                <div class="pupil-size-display" id="pupilSizeOD">-- mm</div>
+              </div>
+              <div class="eye-container">
+                <div class="eye-label">OS (Left)</div>
+                <div class="eye" id="eyeOS">
+                  <div class="iris">
+                    <div class="pupil" id="pupilOS"></div>
+                  </div>
+                </div>
+                <div class="pupil-size-display" id="pupilSizeOS">-- mm</div>
+              </div>
+            </div>
+
+            <div class="lighting-toggle">
+              <button class="lighting-btn active" id="lightingLight">Light</button>
+              <button class="lighting-btn" id="lightingDark">Dark</button>
+            </div>
+
+            <!-- Measurement inputs - side by side -->
+            <div class="measurement-grid">
+              <div class="measurement-group">
+                <h4>In Light</h4>
+                <div class="input-row">
+                  <label class="compact-label">
+                    OD
+                    <input type="number" step="0.1" min="0" max="12" id="odLight" placeholder="3.0" inputmode="decimal">
+                  </label>
+                  <label class="compact-label">
+                    OS
+                    <input type="number" step="0.1" min="0" max="12" id="osLight" placeholder="3.0" inputmode="decimal">
+                  </label>
+                </div>
+                <div class="aniso-readout">
+                  Anisocoria: <strong id="anisLight">--</strong>
+                </div>
+              </div>
+
+              <div class="measurement-group">
+                <h4>In Dark</h4>
+                <div class="input-row">
+                  <label class="compact-label">
+                    OD
+                    <input type="number" step="0.1" min="0" max="12" id="odDark" placeholder="5.0" inputmode="decimal">
+                  </label>
+                  <label class="compact-label">
+                    OS
+                    <input type="number" step="0.1" min="0" max="12" id="osDark" placeholder="5.0" inputmode="decimal">
+                  </label>
+                </div>
+                <div class="aniso-readout">
+                  Anisocoria: <strong id="anisDark">--</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reactivity -->
+            <div class="reactivity-row">
+              <label class="compact-label">
+                OD Reaction
+                <select id="odLightRxn">
+                  <option value="">--</option>
+                  <option value="brisk">Brisk</option>
+                  <option value="sluggish">Sluggish</option>
+                  <option value="none">Fixed</option>
+                </select>
+              </label>
+              <label class="compact-label">
+                OS Reaction
+                <select id="osLightRxn">
+                  <option value="">--</option>
+                  <option value="brisk">Brisk</option>
+                  <option value="sluggish">Sluggish</option>
+                  <option value="none">Fixed</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <!-- Guidance panel -->
+          <div class="guidance-panel">
+            <div class="guidance-item">
+              <span class="guidance-label">Pattern</span>
+              <span class="guidance-value" id="pupilLocalize">Enter measurements</span>
+            </div>
+            <div class="guidance-item">
+              <span class="guidance-label">Next step</span>
+              <span class="guidance-value" id="pupilNext">--</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Signs & RAPD -->
+        <div class="tab-content" id="tab-signs">
+          <h3>RAPD (Relative Afferent Pupillary Defect)</h3>
+          <div class="input-row">
+            <label class="compact-label">
+              RAPD OD
+              <select id="rapdOD">
+                <option value="">--</option>
+                <option value="none">None</option>
+                <option value="1+">1+ (trace)</option>
+                <option value="2+">2+ (mild)</option>
+                <option value="3+">3+ (moderate)</option>
+                <option value="4+">4+ (severe)</option>
+              </select>
+            </label>
+            <label class="compact-label">
+              RAPD OS
+              <select id="rapdOS">
+                <option value="">--</option>
+                <option value="none">None</option>
+                <option value="1+">1+ (trace)</option>
+                <option value="2+">2+ (mild)</option>
+                <option value="3+">3+ (moderate)</option>
+                <option value="4+">4+ (severe)</option>
+              </select>
+            </label>
+          </div>
+
+          <h3>Pupillary Signs</h3>
+          <div class="checkbox-grid">
+            <label class="check"><input type="checkbox" id="dilationLag"> Dilation lag</label>
+            <label class="check"><input type="checkbox" id="anhidrosis"> Anhidrosis</label>
+            <label class="check"><input type="checkbox" id="lightNearDissociation"> Light-near dissociation</label>
+            <label class="check"><input type="checkbox" id="vermiform"> Vermiform movements</label>
+          </div>
+
+          <h3>Drug Exposure</h3>
+          <div class="checkbox-grid">
+            <label class="check"><input type="checkbox" id="anticholinergicExposure"> Anticholinergic</label>
+            <label class="check"><input type="checkbox" id="sympathomimeticExposure"> Sympathomimetic</label>
+          </div>
+        </div>
+
+        <!-- Tab: Optic Nerve -->
+        <div class="tab-content" id="tab-optic">
+          <h3>Disc Appearance</h3>
+          <div class="eye-findings-grid">
+            <div class="eye-findings-col">
+              <h4>OD (Right)</h4>
+              <label class="check"><input type="checkbox" id="discPallorOD"> Disc pallor</label>
+              <label class="check"><input type="checkbox" id="discEdemaOD"> Disc edema</label>
+              <label class="check"><input type="checkbox" id="colorDeficitOD"> Color deficit</label>
+              <label class="check"><input type="checkbox" id="vaReducedOD"> VA reduced</label>
+            </div>
+            <div class="eye-findings-col">
+              <h4>OS (Left)</h4>
+              <label class="check"><input type="checkbox" id="discPallorOS"> Disc pallor</label>
+              <label class="check"><input type="checkbox" id="discEdemaOS"> Disc edema</label>
+              <label class="check"><input type="checkbox" id="colorDeficitOS"> Color deficit</label>
+              <label class="check"><input type="checkbox" id="vaReducedOS"> VA reduced</label>
+            </div>
+          </div>
+
+          <h3>Additional Findings</h3>
+          <div class="checkbox-grid">
+            <label class="check"><input type="checkbox" id="optociliaryShunts"> Optociliary shunts</label>
+            <label class="check"><input type="checkbox" id="cupping"> Disc cupping</label>
+            <label class="check"><input type="checkbox" id="discHemorrhages"> Disc hemorrhages</label>
+          </div>
+
+          <label class="full">
+            <span>Notes</span>
+            <textarea id="opticNerveNotes" rows="2" placeholder="Additional observations..."></textarea>
+          </label>
+
+          <div class="guidance-panel">
+            <div class="guidance-item full-width">
+              <span class="guidance-label">Optic Nerve Status</span>
+              <span class="guidance-value" id="opticNerveStatus">No findings entered</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Presets -->
+        <div class="tab-content" id="tab-presets">
+          <p class="section-desc">Quick-fill common clinical patterns for testing or demonstration.</p>
+
+          <h3>Pupil Patterns</h3>
+          <div class="preset-grid">
+            <button class="preset-btn" id="presetPhysiologic" title="Normal variant">
               <span class="preset-icon">≈</span>
               <span class="preset-label">Physiologic</span>
             </button>
-            <button class="preset-btn" id="presetHorner" title="Small pupil pattern with ptosis">
+            <button class="preset-btn" id="presetHorner" title="Small pupil pattern">
               <span class="preset-icon">◐</span>
-              <span class="preset-label">Horner Pattern</span>
+              <span class="preset-label">Horner</span>
             </button>
-            <button class="preset-btn" id="presetCN3" title="Large pupil with ptosis/diplopia">
+            <button class="preset-btn" id="presetCN3" title="Large pupil + ptosis">
               <span class="preset-icon">◑</span>
-              <span class="preset-label">CN III Pattern</span>
+              <span class="preset-label">CN III</span>
             </button>
-            <button class="preset-btn" id="presetAdie" title="Large pupil with light-near dissociation">
+            <button class="preset-btn" id="presetAdie" title="Light-near dissociation">
               <span class="preset-icon">○</span>
-              <span class="preset-label">Adie Pattern</span>
+              <span class="preset-label">Adie</span>
             </button>
-          </div>
-          <div class="preset-row">
-            <button class="preset-btn" id="presetPharmaco" title="Fixed dilated pupil">
+            <button class="preset-btn" id="presetPharmaco" title="Fixed dilated">
               <span class="preset-icon">●</span>
               <span class="preset-label">Pharmacologic</span>
             </button>
-            <button class="preset-btn" id="presetAION" title="RAPD with disc edema">
+          </div>
+
+          <h3>Optic Nerve Patterns</h3>
+          <div class="preset-grid">
+            <button class="preset-btn" id="presetAION" title="RAPD + disc edema">
               <span class="preset-icon">⊖</span>
-              <span class="preset-label">AION Pattern</span>
+              <span class="preset-label">AION</span>
             </button>
-            <button class="preset-btn" id="presetOpticNeuritis" title="RAPD with pain on movement">
+            <button class="preset-btn" id="presetOpticNeuritis" title="RAPD + pain">
               <span class="preset-icon">⊘</span>
               <span class="preset-label">Optic Neuritis</span>
             </button>
@@ -121,228 +318,6 @@
               <span class="preset-icon">⊛</span>
               <span class="preset-label">Papilledema</span>
             </button>
-          </div>
-        </div>
-
-        <div class="section-block section-block--primary" id="section-triage">
-          <h3>Rapid triage</h3>
-          <p class="section-desc">Mark urgent context first to surface high-risk differentials.</p>
-        <div class="row">
-          <label class="check check--urgent"><input type="checkbox" id="acuteOnset"> Acute onset (hours–days)</label>
-          <label class="check check--urgent"><input type="checkbox" id="painful"> Pain/headache/facial pain</label>
-          <label class="check check--urgent"><input type="checkbox" id="neuroSx"> Other neuro symptoms</label>
-            <label class="check"><input type="checkbox" id="trauma"> Trauma/recent eye surgery</label>
-          </div>
-          </div>
-
-          <div class="section-block section-block--primary" id="section-pupils">
-        <!-- Visual Pupil Diagram -->
-        <h3>Pupil Measurements</h3>
-        <p class="section-desc">Enter light and dark sizes first. The pattern drives most of the logic.</p>
-        <div class="pupil-diagram-container">
-          <div class="pupil-diagram">
-            <div class="eye-container">
-              <div class="eye-label">OD (Right)</div>
-              <div class="eye" id="eyeOD">
-                <div class="iris">
-                  <div class="pupil" id="pupilOD"></div>
-                </div>
-              </div>
-              <div class="pupil-size-display" id="pupilSizeOD">— mm</div>
-            </div>
-            <div class="eye-container">
-              <div class="eye-label">OS (Left)</div>
-              <div class="eye" id="eyeOS">
-                <div class="iris">
-                  <div class="pupil" id="pupilOS"></div>
-                </div>
-              </div>
-              <div class="pupil-size-display" id="pupilSizeOS">— mm</div>
-            </div>
-          </div>
-          <div class="lighting-toggle">
-            <button class="lighting-btn active" id="lightingLight">Light</button>
-            <button class="lighting-btn" id="lightingDark">Dark</button>
-          </div>
-        </div>
-
-        <h3>Sizes and reactivity</h3>
-        <div class="twoCol">
-          <div>
-            <h3>Light</h3>
-            <div class="row">
-              <label>OD (mm) <input type="number" step="0.1" min="0" max="12" id="odLight" placeholder="3.0" inputmode="decimal"></label>
-              <label>OS (mm) <input type="number" step="0.1" min="0" max="12" id="osLight" placeholder="3.5" inputmode="decimal"></label>
-            </div>
-            <div class="row">
-              <label>OD light reaction
-                <select id="odLightRxn">
-                  <option value="">—</option>
-                  <option value="brisk">Brisk</option>
-                  <option value="sluggish">Sluggish</option>
-                  <option value="none">None (Fixed)</option>
-                </select>
-              </label>
-              <label>OS light reaction
-                <select id="osLightRxn">
-                  <option value="">—</option>
-                  <option value="brisk">Brisk</option>
-                  <option value="sluggish">Sluggish</option>
-                  <option value="none">None (Fixed)</option>
-                </select>
-              </label>
-            </div>
-          </div>
-
-          <div>
-            <h3>Dark</h3>
-            <div class="row">
-              <label>OD (mm) <input type="number" step="0.1" min="0" max="12" id="odDark" placeholder="5.0" inputmode="decimal"></label>
-              <label>OS (mm) <input type="number" step="0.1" min="0" max="12" id="osDark" placeholder="6.0" inputmode="decimal"></label>
-            </div>
-            <div class="row">
-              <label class="check"><input type="checkbox" id="dilationLag"> Dilation lag suspected</label>
-              <label class="check"><input type="checkbox" id="anhidrosis"> Anhidrosis (if known)</label>
-            </div>
-          </div>
-        </div>
-
-        </div>
-        <div class="section-block" id="section-rapd">
-        <h3>RAPD (Relative Afferent Pupillary Defect)</h3>
-        <div class="row">
-          <label>RAPD OD
-            <select id="rapdOD">
-              <option value="">—</option>
-              <option value="none">None</option>
-              <option value="1+">1+ (trace)</option>
-              <option value="2+">2+ (mild)</option>
-              <option value="3+">3+ (moderate)</option>
-              <option value="4+">4+ (severe)</option>
-            </select>
-          </label>
-          <label>RAPD OS
-            <select id="rapdOS">
-              <option value="">—</option>
-              <option value="none">None</option>
-              <option value="1+">1+ (trace)</option>
-              <option value="2+">2+ (mild)</option>
-              <option value="3+">3+ (moderate)</option>
-              <option value="4+">4+ (severe)</option>
-            </select>
-          </label>
-        </div>
-        </div>
-
-        <div class="section-block" id="section-signs">
-        <h3>Special signs / exposures</h3>
-        <div class="row">
-          <label class="check"><input type="checkbox" id="lightNearDissociation"> Light–near dissociation</label>
-          <label class="check"><input type="checkbox" id="vermiform"> Vermiform/segmental iris movement</label>
-        </div>
-        <div class="row">
-          <label class="check"><input type="checkbox" id="anticholinergicExposure"> Anticholinergic exposure
-            suspected</label>
-          <label class="check"><input type="checkbox" id="sympathomimeticExposure"> Sympathomimetic exposure
-            suspected</label>
-        </div>
-        </div>
-
-        <div class="section-block" id="section-guidance">
-        <h3>Guidance</h3>
-        <div class="metrics">
-          <div class="metric">
-            <div class="k">Anisocoria (Light)</div>
-            <div class="v" id="anisLight">—</div>
-          </div>
-          <div class="metric">
-            <div class="k">Anisocoria (Dark)</div>
-            <div class="v" id="anisDark">—</div>
-          </div>
-          <div class="metric">
-            <div class="k">Threshold</div>
-            <div class="v small">0.5 mm</div>
-          </div>
-        </div>
-
-        <div class="metrics">
-          <div class="metric">
-            <div class="k">Localization hint</div>
-            <div class="v small" id="pupilLocalize">—</div>
-          </div>
-          <div class="metric">
-            <div class="k">Data quality</div>
-            <div class="v small" id="pupilQuality">—</div>
-          </div>
-          <div class="metric">
-            <div class="k">Next discriminator</div>
-            <div class="v small" id="pupilNext">—</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="card">
-        <h2>Optic Nerve Assessment</h2>
-        <p class="small">Optic nerve findings help differentiate afferent pathway dysfunction and guide testing recommendations.</p>
-
-        <h3>Disc Appearance</h3>
-        <div class="twoCol">
-          <div>
-            <h4>OD (Right Eye)</h4>
-            <div class="row">
-              <label class="check"><input type="checkbox" id="discPallorOD"> Disc pallor</label>
-              <label class="check"><input type="checkbox" id="discEdemaOD"> Disc edema</label>
-            </div>
-          </div>
-          <div>
-            <h4>OS (Left Eye)</h4>
-            <div class="row">
-              <label class="check"><input type="checkbox" id="discPallorOS"> Disc pallor</label>
-              <label class="check"><input type="checkbox" id="discEdemaOS"> Disc edema</label>
-            </div>
-          </div>
-        </div>
-
-        <h3>Color Vision / Visual Acuity</h3>
-        <div class="twoCol">
-          <div>
-            <h4>OD (Right Eye)</h4>
-            <div class="row">
-              <label class="check"><input type="checkbox" id="colorDeficitOD"> Color deficit (red desaturation / Ishihara)</label>
-            </div>
-            <div class="row">
-              <label class="check"><input type="checkbox" id="vaReducedOD"> VA reduced (vs baseline)</label>
-            </div>
-          </div>
-          <div>
-            <h4>OS (Left Eye)</h4>
-            <div class="row">
-              <label class="check"><input type="checkbox" id="colorDeficitOS"> Color deficit (red desaturation / Ishihara)</label>
-            </div>
-            <div class="row">
-              <label class="check"><input type="checkbox" id="vaReducedOS"> VA reduced (vs baseline)</label>
-            </div>
-          </div>
-        </div>
-
-        <h3>Additional Findings</h3>
-        <div class="row">
-          <label class="check"><input type="checkbox" id="optociliaryShunts"> Optociliary shunt vessels (suggests chronic compression)</label>
-        </div>
-        <div class="row">
-          <label class="check"><input type="checkbox" id="cupping"> Optic disc cupping (glaucomatous changes)</label>
-          <label class="check"><input type="checkbox" id="discHemorrhages"> Disc hemorrhages</label>
-        </div>
-
-        <label class="full">
-          <span>Optic nerve notes</span>
-          <textarea id="opticNerveNotes" rows="2" placeholder="Additional observations..."></textarea>
-        </label>
-
-        <div class="metrics">
-          <div class="metric">
-            <div class="k">Optic Nerve Status</div>
-            <div class="v small" id="opticNerveStatus">No findings entered</div>
           </div>
         </div>
       </section>
