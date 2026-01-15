@@ -5,9 +5,30 @@ import { compute } from "./engine.js";
 
 const $ = (id) => document.getElementById(id);
 
+function getDecimalSeparator() {
+  const parts = new Intl.NumberFormat().formatToParts(1.1);
+  const decimal = parts.find(p => p.type === "decimal");
+  return decimal ? decimal.value : ".";
+}
+
+function bindDecimalInput(el) {
+  const decimal = getDecimalSeparator();
+  if (decimal !== ",") return;
+
+  el.addEventListener("keydown", (e) => {
+    if (e.key !== ".") return;
+    e.preventDefault();
+    const start = el.selectionStart ?? el.value.length;
+    const end = el.selectionEnd ?? el.value.length;
+    el.setRangeText(",", start, end, "end");
+  });
+}
+
 function toNumOrNull(v) {
   if (v === "" || v === null || v === undefined) return null;
-  const n = Number(v);
+  const normalized = String(v).trim().replace(",", ".");
+  if (!normalized) return null;
+  const n = Number(normalized);
   return Number.isFinite(n) ? n : null;
 }
 function formatMm(x) {
@@ -371,6 +392,11 @@ function bind() {
   $("osLight").addEventListener("input", e => sessionStore.set("pupils.osLight", toNumOrNull(e.target.value)));
   $("odDark").addEventListener("input",  e => sessionStore.set("pupils.odDark",  toNumOrNull(e.target.value)));
   $("osDark").addEventListener("input",  e => sessionStore.set("pupils.osDark",  toNumOrNull(e.target.value)));
+
+  bindDecimalInput($("odLight"));
+  bindDecimalInput($("osLight"));
+  bindDecimalInput($("odDark"));
+  bindDecimalInput($("osDark"));
 
   // reactivity
   $("odLightRxn").addEventListener("change", e => sessionStore.set("pupils.odLightRxn", e.target.value));
