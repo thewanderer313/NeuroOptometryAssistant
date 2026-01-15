@@ -29,6 +29,24 @@ const defaultSession = () => ({
     rapdOD: "",   // "", "none", "1+", "2+", "3+", "4+"
     rapdOS: ""    // "", "none", "1+", "2+", "3+", "4+"
   },
+  opticNerve: {
+    // Disc appearance
+    discPallorOD: false,
+    discPallorOS: false,
+    discEdemaOD: false,
+    discEdemaOS: false,
+    // Color vision
+    colorDeficitOD: false,    // Red desaturation or Ishihara deficit
+    colorDeficitOS: false,
+    // Visual acuity concerns
+    vaReducedOD: false,
+    vaReducedOS: false,
+    // Additional findings
+    optociliaryShunts: false,  // Suggests chronic compression
+    cupping: false,            // Glaucomatous changes
+    hemorrhages: false,        // Disc hemorrhages
+    notes: ""
+  },
   eom: {
     diplopia: false,
     ptosis: false,
@@ -76,6 +94,7 @@ class SessionStore {
         meta: { ...d.meta, ...(parsed.meta || {}) },
         triage: { ...d.triage, ...(parsed.triage || {}) },
         pupils: { ...d.pupils, ...(parsed.pupils || {}) },
+        opticNerve: { ...d.opticNerve, ...(parsed.opticNerve || {}) },
         eom: { ...d.eom, ...(parsed.eom || {}) },
         visualFields: { ...d.visualFields, ...(parsed.visualFields || {}) }
       };

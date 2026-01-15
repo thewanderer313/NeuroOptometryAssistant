@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>EOM / Lesion Location (Starter)</title>
+  <title>EOM / Lesion Location</title>
   <link rel="stylesheet" href="./assets/styles.css" />
 </head>
 
@@ -12,7 +12,7 @@
   <header class="topbar">
     <div class="brand">
       <h1>Neuro-Ophtho Assistant</h1>
-      <p class="sub">EOM module (starter) • updates global differential in real time</p>
+      <p class="sub">EOM module • updates global differential in real time</p>
     </div>
     <div class="pill">Local • No network calls</div>
   </header>
@@ -64,25 +64,63 @@
     <!-- MAIN -->
     <main class="main">
       <section class="card">
-        <h2>EOM / Lesion Localization (Starter)</h2>
-        <div class="small">
-          This starter page only captures a few high-impact inputs so you can see cross-module behavior immediately.
-          We’ll expand into full EOM grids, deviation entry, incomitance, torsion, INO, MG, etc.
+        <h2>EOM / Lesion Localization</h2>
+
+        <!-- Quick Presets -->
+        <div class="presets-section">
+          <h3>Quick Entry Presets</h3>
+          <div class="preset-row">
+            <button class="preset-btn" id="presetCN6" title="Abduction deficit with diplopia">
+              <span class="preset-icon">←</span>
+              <span class="preset-label">CN VI Pattern</span>
+            </button>
+            <button class="preset-btn" id="presetCN4" title="Vertical diplopia with torsion">
+              <span class="preset-icon">↗</span>
+              <span class="preset-label">CN IV Pattern</span>
+            </button>
+            <button class="preset-btn" id="presetMG" title="Fatigable ptosis/diplopia">
+              <span class="preset-icon">⚡</span>
+              <span class="preset-label">MG Pattern</span>
+            </button>
+            <button class="preset-btn" id="presetINO" title="Adduction deficit">
+              <span class="preset-icon">→</span>
+              <span class="preset-label">INO Pattern</span>
+            </button>
+          </div>
         </div>
 
         <h3>Key symptoms</h3>
         <div class="row">
           <label class="check"><input type="checkbox" id="diplopia"> Diplopia present</label>
           <label class="check"><input type="checkbox" id="ptosis"> Ptosis present</label>
-          <label class="check"><input type="checkbox" id="fatigable"> Fatigable (worsens with sustained use)</label>
-          <label class="check"><input type="checkbox" id="painOnMovement"> Pain on eye movement</label>
+          <label class="check check--urgent"><input type="checkbox" id="fatigable"> Fatigable (worsens with sustained use)</label>
+          <label class="check check--urgent"><input type="checkbox" id="painOnMovement"> Pain on eye movement</label>
         </div>
 
-        <h3>Gross motility flags</h3>
-        <div class="row">
-          <label class="check"><input type="checkbox" id="abductionDeficit"> Abduction deficit suspected</label>
-          <label class="check"><input type="checkbox" id="adductionDeficit"> Adduction deficit suspected</label>
-          <label class="check"><input type="checkbox" id="verticalLimitation"> Vertical limitation suspected</label>
+        <h3>Motility Deficits</h3>
+        <div class="twoCol">
+          <div>
+            <h4 style="margin: 8px 0; color: var(--muted); font-size: 0.85rem;">Click to mark deficits:</h4>
+            <div class="eom-grid" id="eomGrid">
+              <div class="eom-cell" data-gaze="upleft" title="Up and Left">SR/IO</div>
+              <div class="eom-cell" data-gaze="up" title="Up">SR</div>
+              <div class="eom-cell" data-gaze="upright" title="Up and Right">SR/IO</div>
+              <div class="eom-cell" data-gaze="left" title="Left (Abduction)">LR</div>
+              <div class="eom-cell center" title="Primary">PP</div>
+              <div class="eom-cell" data-gaze="right" title="Right (Abduction)">LR</div>
+              <div class="eom-cell" data-gaze="downleft" title="Down and Left">IR/SO</div>
+              <div class="eom-cell" data-gaze="down" title="Down">IR</div>
+              <div class="eom-cell" data-gaze="downright" title="Down and Right">IR/SO</div>
+            </div>
+          </div>
+          <div>
+            <h4 style="margin: 8px 0; color: var(--muted); font-size: 0.85rem;">Summary flags:</h4>
+            <div class="row" style="flex-direction: column; align-items: flex-start;">
+              <label class="check"><input type="checkbox" id="abductionDeficit"> Abduction deficit (CN VI)</label>
+              <label class="check"><input type="checkbox" id="adductionDeficit"> Adduction deficit (CN III/INO)</label>
+              <label class="check"><input type="checkbox" id="verticalLimitation"> Vertical limitation (CN III/IV)</label>
+            </div>
+          </div>
         </div>
 
         <h3>Comitance</h3>
@@ -90,8 +128,8 @@
           <label>Comitant?
             <select id="comitant">
               <option value="">—</option>
-              <option value="true">Comitant</option>
-              <option value="false">Incomitant</option>
+              <option value="true">Comitant (same in all gazes)</option>
+              <option value="false">Incomitant (varies with gaze)</option>
             </select>
           </label>
         </div>

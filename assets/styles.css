@@ -527,3 +527,389 @@ select {
 .sidebar .nav {
   display: none;
 }
+
+/* ===== QUICK PRESETS ===== */
+.presets-section {
+  margin-bottom: 16px;
+  padding: 14px;
+  background: rgba(110, 231, 183, 0.05);
+  border: 1px solid rgba(110, 231, 183, 0.2);
+  border-radius: 14px;
+}
+
+.preset-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.preset-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 16px;
+  background: #0e1017;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+}
+
+.preset-btn:hover {
+  border-color: var(--accent);
+  background: rgba(110, 231, 183, 0.08);
+}
+
+.preset-icon {
+  font-size: 1.5rem;
+  color: var(--accent);
+}
+
+.preset-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* ===== VISUAL PUPIL DIAGRAM ===== */
+.pupil-diagram-container {
+  margin: 16px 0;
+  padding: 20px;
+  background: #0e1017;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.pupil-diagram {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-bottom: 16px;
+}
+
+.eye-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.eye-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.eye {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    inset 0 2px 8px rgba(0,0,0,0.1),
+    0 4px 12px rgba(0,0,0,0.3);
+  transition: background 0.3s ease;
+}
+
+.eye.dark-mode {
+  background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
+}
+
+.iris {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #6b8e7a, #3d5a4c, #2a3d32);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.pupil {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #1a1a1a, #000);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.pupil-size-display {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.lighting-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.lighting-btn {
+  padding: 10px 24px;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--muted);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lighting-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.lighting-btn.active {
+  background: rgba(110, 231, 183, 0.15);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ===== URGENT CHECKBOX HIGHLIGHT ===== */
+.check--urgent {
+  border-color: rgba(251, 113, 133, 0.35);
+}
+
+.check--urgent:has(input:checked) {
+  background: rgba(251, 113, 133, 0.15);
+  border-color: var(--danger);
+}
+
+/* ===== VF PATTERN GRID ===== */
+.vf-pattern-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.pattern-card {
+  padding: 14px;
+  background: #0e1017;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pattern-card:hover {
+  border-color: var(--accent);
+}
+
+.pattern-card.selected {
+  background: rgba(110, 231, 183, 0.1);
+  border-color: var(--accent);
+}
+
+.pattern-card-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.pattern-card-desc {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+/* ===== EOM GRID ===== */
+.eom-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 12px 0;
+  max-width: 300px;
+}
+
+.eom-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0e1017;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 0.75rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.eom-cell:hover {
+  border-color: var(--accent);
+}
+
+.eom-cell.center {
+  background: var(--card);
+  cursor: default;
+}
+
+.eom-cell.deficit {
+  background: rgba(251, 113, 133, 0.15);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* ===== DIAGNOSIS CATEGORY BADGES ===== */
+.dx-category {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-left: 8px;
+}
+
+.dx-category--pupil {
+  background: rgba(110, 231, 183, 0.15);
+  color: var(--accent);
+}
+
+.dx-category--eom {
+  background: rgba(96, 165, 250, 0.15);
+  color: var(--info);
+}
+
+.dx-category--vf {
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--warn);
+}
+
+.dx-category--neuro {
+  background: rgba(251, 113, 133, 0.15);
+  color: var(--danger);
+}
+
+/* ===== NOTES/TEXT INPUT STYLING ===== */
+input[type="text"] {
+  background: #0e1017;
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 12px 12px;
+  min-width: 180px;
+  outline: none;
+  font-size: 1rem;
+  width: 100%;
+}
+
+input[type="text"]:focus {
+  border-color: var(--accent);
+}
+
+/* ===== TESTING RECOMMENDATIONS ===== */
+.test-group {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.test-group-header {
+  padding: 8px 12px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.test-group--critical .test-group-header {
+  background: rgba(251, 113, 133, 0.2);
+  color: var(--danger);
+}
+
+.test-group--high .test-group-header {
+  background: rgba(251, 191, 36, 0.2);
+  color: var(--warn);
+}
+
+.test-group--moderate .test-group-header {
+  background: rgba(96, 165, 250, 0.15);
+  color: var(--info);
+}
+
+.test-group--low .test-group-header {
+  background: rgba(110, 231, 183, 0.15);
+  color: var(--accent);
+}
+
+.test-item {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(14, 16, 23, 0.5);
+}
+
+.test-item:last-child {
+  border-bottom: none;
+}
+
+.test-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.test-rationale {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.test-technique {
+  font-size: 0.75rem;
+  color: var(--muted);
+  background: rgba(110, 231, 183, 0.05);
+  padding: 8px 10px;
+  border-radius: 8px;
+  border-left: 2px solid var(--accent);
+  line-height: 1.4;
+}
+
+.test-technique strong {
+  color: var(--accent);
+}
+
+/* ===== OPTIC NERVE CATEGORY BADGE ===== */
+.dx-category--optic {
+  background: rgba(192, 132, 252, 0.15);
+  color: #c084fc;
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 980px) {
+  .preset-row {
+    justify-content: center;
+  }
+
+  .pupil-diagram {
+    gap: 30px;
+  }
+
+  .eye {
+    width: 70px;
+    height: 70px;
+  }
+
+  .iris {
+    width: 55px;
+    height: 55px;
+  }
+
+  .vf-pattern-grid {
+    grid-template-columns: 1fr;
+  }
+}

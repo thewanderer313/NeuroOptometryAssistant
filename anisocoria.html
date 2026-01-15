@@ -59,6 +59,11 @@
         <h2>Top Differential</h2>
         <div id="sbDx"></div>
       </section>
+
+      <section class="card">
+        <h2>Recommended Testing</h2>
+        <div id="sbTests"></div>
+      </section>
     </aside>
 
     <!-- MAIN -->
@@ -66,12 +71,64 @@
       <section class="card">
         <h2>Anisocoria / Pupils</h2>
 
+        <!-- Quick Presets -->
+        <div class="presets-section">
+          <h3>Quick Entry Presets</h3>
+          <div class="preset-row">
+            <button class="preset-btn" id="presetHorner" title="Small pupil pattern with ptosis">
+              <span class="preset-icon">◐</span>
+              <span class="preset-label">Horner Pattern</span>
+            </button>
+            <button class="preset-btn" id="presetCN3" title="Large pupil with ptosis/diplopia">
+              <span class="preset-icon">◑</span>
+              <span class="preset-label">CN III Pattern</span>
+            </button>
+            <button class="preset-btn" id="presetAdie" title="Large pupil with light-near dissociation">
+              <span class="preset-icon">○</span>
+              <span class="preset-label">Adie Pattern</span>
+            </button>
+            <button class="preset-btn" id="presetPharmaco" title="Fixed dilated pupil">
+              <span class="preset-icon">●</span>
+              <span class="preset-label">Pharmacologic</span>
+            </button>
+          </div>
+        </div>
+
         <h3>Rapid triage</h3>
         <div class="row">
-          <label class="check"><input type="checkbox" id="acuteOnset"> Acute onset (hours–days)</label>
-          <label class="check"><input type="checkbox" id="painful"> Pain/headache/facial pain</label>
-          <label class="check"><input type="checkbox" id="neuroSx"> Other neuro symptoms</label>
+          <label class="check check--urgent"><input type="checkbox" id="acuteOnset"> Acute onset (hours–days)</label>
+          <label class="check check--urgent"><input type="checkbox" id="painful"> Pain/headache/facial pain</label>
+          <label class="check check--urgent"><input type="checkbox" id="neuroSx"> Other neuro symptoms</label>
           <label class="check"><input type="checkbox" id="trauma"> Trauma/recent eye surgery</label>
+        </div>
+
+        <!-- Visual Pupil Diagram -->
+        <h3>Pupil Measurements</h3>
+        <div class="pupil-diagram-container">
+          <div class="pupil-diagram">
+            <div class="eye-container">
+              <div class="eye-label">OD (Right)</div>
+              <div class="eye" id="eyeOD">
+                <div class="iris">
+                  <div class="pupil" id="pupilOD"></div>
+                </div>
+              </div>
+              <div class="pupil-size-display" id="pupilSizeOD">— mm</div>
+            </div>
+            <div class="eye-container">
+              <div class="eye-label">OS (Left)</div>
+              <div class="eye" id="eyeOS">
+                <div class="iris">
+                  <div class="pupil" id="pupilOS"></div>
+                </div>
+              </div>
+              <div class="pupil-size-display" id="pupilSizeOS">— mm</div>
+            </div>
+          </div>
+          <div class="lighting-toggle">
+            <button class="lighting-btn active" id="lightingLight">Light</button>
+            <button class="lighting-btn" id="lightingDark">Dark</button>
+          </div>
         </div>
 
         <h3>Sizes and reactivity</h3>
@@ -88,7 +145,7 @@
                   <option value="">—</option>
                   <option value="brisk">Brisk</option>
                   <option value="sluggish">Sluggish</option>
-                  <option value="none">None</option>
+                  <option value="none">None (Fixed)</option>
                 </select>
               </label>
               <label>OS light reaction
@@ -96,7 +153,7 @@
                   <option value="">—</option>
                   <option value="brisk">Brisk</option>
                   <option value="sluggish">Sluggish</option>
-                  <option value="none">None</option>
+                  <option value="none">None (Fixed)</option>
                 </select>
               </label>
             </div>
@@ -178,6 +235,72 @@
           <div class="metric">
             <div class="k">Next discriminator</div>
             <div class="v small" id="pupilNext">—</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Optic Nerve Assessment</h2>
+        <p class="small">Optic nerve findings help differentiate afferent pathway dysfunction and guide testing recommendations.</p>
+
+        <h3>Disc Appearance</h3>
+        <div class="twoCol">
+          <div>
+            <h4>OD (Right Eye)</h4>
+            <div class="row">
+              <label class="check"><input type="checkbox" id="discPallorOD"> Disc pallor</label>
+              <label class="check"><input type="checkbox" id="discEdemaOD"> Disc edema</label>
+            </div>
+          </div>
+          <div>
+            <h4>OS (Left Eye)</h4>
+            <div class="row">
+              <label class="check"><input type="checkbox" id="discPallorOS"> Disc pallor</label>
+              <label class="check"><input type="checkbox" id="discEdemaOS"> Disc edema</label>
+            </div>
+          </div>
+        </div>
+
+        <h3>Color Vision / Visual Acuity</h3>
+        <div class="twoCol">
+          <div>
+            <h4>OD (Right Eye)</h4>
+            <div class="row">
+              <label class="check"><input type="checkbox" id="colorDeficitOD"> Color deficit (red desaturation / Ishihara)</label>
+            </div>
+            <div class="row">
+              <label class="check"><input type="checkbox" id="vaReducedOD"> VA reduced (vs baseline)</label>
+            </div>
+          </div>
+          <div>
+            <h4>OS (Left Eye)</h4>
+            <div class="row">
+              <label class="check"><input type="checkbox" id="colorDeficitOS"> Color deficit (red desaturation / Ishihara)</label>
+            </div>
+            <div class="row">
+              <label class="check"><input type="checkbox" id="vaReducedOS"> VA reduced (vs baseline)</label>
+            </div>
+          </div>
+        </div>
+
+        <h3>Additional Findings</h3>
+        <div class="row">
+          <label class="check"><input type="checkbox" id="optociliaryShunts"> Optociliary shunt vessels (suggests chronic compression)</label>
+        </div>
+        <div class="row">
+          <label class="check"><input type="checkbox" id="cupping"> Optic disc cupping (glaucomatous changes)</label>
+          <label class="check"><input type="checkbox" id="discHemorrhages"> Disc hemorrhages</label>
+        </div>
+
+        <label class="full">
+          <span>Optic nerve notes</span>
+          <textarea id="opticNerveNotes" rows="2" placeholder="Additional observations..."></textarea>
+        </label>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="k">Optic Nerve Status</div>
+            <div class="v small" id="opticNerveStatus">No findings entered</div>
           </div>
         </div>
       </section>
