@@ -65,6 +65,14 @@
 
     <!-- MAIN -->
     <main class="main">
+      <div class="jumpbar">
+        <span class="jumpbar-title">Quick Jump</span>
+        <a href="#section-presets">Presets</a>
+        <a href="#section-context">Test context</a>
+        <a href="#section-pattern">Pattern features</a>
+        <a href="#section-descriptors">Descriptors</a>
+        <a href="#section-guidance">Guidance</a>
+      </div>
       <section class="card">
         <h2>Visual Field Interpretation</h2>
         <div class="small">
@@ -73,7 +81,7 @@
         </div>
 
         <!-- Quick Presets -->
-        <div class="presets-section">
+        <div class="section-block presets-section" id="section-presets">
           <h3>Quick Entry Presets</h3>
           <div class="preset-row">
             <button class="preset-btn" id="presetBitemporal" title="Chiasmal lesion pattern">
@@ -95,7 +103,9 @@
           </div>
         </div>
 
+        <div class="section-block section-block--primary" id="section-context">
         <h3>Test context</h3>
+        <p class="section-desc">Set test type and reliability before interpreting patterns.</p>
         <div class="row">
           <label>Test type
             <select id="vfTestType">
@@ -120,8 +130,11 @@
           <label class="check"><input type="checkbox" id="vfNewDefect"> New defect vs baseline</label>
           <label class="check"><input type="checkbox" id="vfSymptoms"> Visual complaint present</label>
         </div>
+        </div>
 
+        <div class="section-block section-block--primary" id="section-pattern">
         <h3>Pattern features</h3>
+        <p class="section-desc">Use laterality and meridian respect, then mark hallmark patterns.</p>
         <div class="row">
           <label>Laterality
             <select id="vfLaterality">
@@ -148,14 +161,15 @@
             </select>
           </label>
         </div>
-
         <div class="row">
           <label class="check"><input type="checkbox" id="vfHomonymous"> Homonymous pattern suspected</label>
           <label class="check"><input type="checkbox" id="vfBitemporal"> Bitemporal pattern suspected</label>
           <label class="check"><input type="checkbox" id="vfAltitudinal"> Altitudinal pattern suspected</label>
           <label class="check"><input type="checkbox" id="vfCentralScotoma"> Central scotoma suspected</label>
         </div>
+        </div>
 
+        <div class="section-block" id="section-descriptors">
         <h3>Helpful descriptors</h3>
         <div class="row">
           <label>Congruity
@@ -172,7 +186,10 @@
               placeholder="e.g., dense superior temporal defect OS; reliability borderline..." />
           </label>
         </div>
+        </div>
 
+        <div class="section-block" id="section-guidance">
+        <h3>Guidance</h3>
         <div class="metrics">
           <div class="metric">
             <div class="k">Quick localization hint</div>
@@ -186,6 +203,7 @@
             <div class="k">Next discriminator</div>
             <div class="v small" id="vfNext">—</div>
           </div>
+        </div>
         </div>
       </section>
     </main>

@@ -35,7 +35,7 @@
         <a href="./visual-fields.html">Visual Fields</a>
       </div>
 
-      <section class="card">
+      <section class="card" id="section-optic">
         <h2>Session</h2>
         <div class="small"><strong id="sbPatient">Untitled</strong></div>
         <div class="small" id="sbUpdated"></div>
@@ -47,6 +47,8 @@
 
         <div class="btnRow">
           <button class="ghost" id="sbReset">Reset session</button>
+        </div>
+        </div>
         </div>
       </section>
 
@@ -68,11 +70,21 @@
 
     <!-- MAIN -->
     <main class="main">
+      <div class="jumpbar">
+        <span class="jumpbar-title">Quick Jump</span>
+        <a href="#section-presets">Presets</a>
+        <a href="#section-triage">Triage</a>
+        <a href="#section-pupils">Pupil sizes</a>
+        <a href="#section-rapd">RAPD</a>
+        <a href="#section-signs">Special signs</a>
+        <a href="#section-guidance">Guidance</a>
+        <a href="#section-optic">Optic nerve</a>
+      </div>
       <section class="card">
         <h2>Anisocoria / Pupils</h2>
 
         <!-- Quick Presets -->
-        <div class="presets-section">
+          <div class="section-block presets-section" id="section-presets">
           <h3>Quick Entry Presets</h3>
           <div class="preset-row">
             <button class="preset-btn" id="presetPhysiologic" title="Normal variant - equal in light/dark">
@@ -112,16 +124,21 @@
           </div>
         </div>
 
-        <h3>Rapid triage</h3>
+        <div class="section-block section-block--primary" id="section-triage">
+          <h3>Rapid triage</h3>
+          <p class="section-desc">Mark urgent context first to surface high-risk differentials.</p>
         <div class="row">
           <label class="check check--urgent"><input type="checkbox" id="acuteOnset"> Acute onset (hours–days)</label>
           <label class="check check--urgent"><input type="checkbox" id="painful"> Pain/headache/facial pain</label>
           <label class="check check--urgent"><input type="checkbox" id="neuroSx"> Other neuro symptoms</label>
-          <label class="check"><input type="checkbox" id="trauma"> Trauma/recent eye surgery</label>
-        </div>
+            <label class="check"><input type="checkbox" id="trauma"> Trauma/recent eye surgery</label>
+          </div>
+          </div>
 
+          <div class="section-block section-block--primary" id="section-pupils">
         <!-- Visual Pupil Diagram -->
         <h3>Pupil Measurements</h3>
+        <p class="section-desc">Enter light and dark sizes first. The pattern drives most of the logic.</p>
         <div class="pupil-diagram-container">
           <div class="pupil-diagram">
             <div class="eye-container">
@@ -190,6 +207,8 @@
           </div>
         </div>
 
+        </div>
+        <div class="section-block" id="section-rapd">
         <h3>RAPD (Relative Afferent Pupillary Defect)</h3>
         <div class="row">
           <label>RAPD OD
@@ -213,7 +232,9 @@
             </select>
           </label>
         </div>
+        </div>
 
+        <div class="section-block" id="section-signs">
         <h3>Special signs / exposures</h3>
         <div class="row">
           <label class="check"><input type="checkbox" id="lightNearDissociation"> Light–near dissociation</label>
@@ -225,7 +246,10 @@
           <label class="check"><input type="checkbox" id="sympathomimeticExposure"> Sympathomimetic exposure
             suspected</label>
         </div>
+        </div>
 
+        <div class="section-block" id="section-guidance">
+        <h3>Guidance</h3>
         <div class="metrics">
           <div class="metric">
             <div class="k">Anisocoria (Light)</div>

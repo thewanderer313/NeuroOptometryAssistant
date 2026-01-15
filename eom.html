@@ -68,11 +68,21 @@
 
     <!-- MAIN -->
     <main class="main">
+      <div class="jumpbar">
+        <span class="jumpbar-title">Quick Jump</span>
+        <a href="#section-presets">Presets</a>
+        <a href="#section-symptoms">Symptoms</a>
+        <a href="#section-grid">Motility grid</a>
+        <a href="#section-summary">Summary flags</a>
+        <a href="#section-comitance">Comitance</a>
+        <a href="#section-notes">Notes</a>
+        <a href="#section-guidance">Guidance</a>
+      </div>
       <section class="card">
         <h2>EOM / Lesion Localization</h2>
 
         <!-- Quick Presets -->
-        <div class="presets-section">
+          <div class="section-block presets-section" id="section-presets">
           <h3>Quick Entry Presets</h3>
           <div class="preset-row">
             <button class="preset-btn" id="presetCN6" title="Abduction deficit with diplopia">
@@ -112,18 +122,22 @@
           </div>
         </div>
 
-        <h3>Key symptoms</h3>
-        <div class="row">
-          <label class="check"><input type="checkbox" id="diplopia"> Diplopia present</label>
-          <label class="check"><input type="checkbox" id="ptosis"> Ptosis present</label>
-          <label class="check check--urgent"><input type="checkbox" id="fatigable"> Fatigable (worsens with sustained use)</label>
-          <label class="check check--urgent"><input type="checkbox" id="painOnMovement"> Pain on eye movement</label>
+        <div class="section-block section-block--primary" id="section-symptoms">
+          <h3>Key symptoms</h3>
+          <div class="row">
+            <label class="check"><input type="checkbox" id="diplopia"> Diplopia present</label>
+            <label class="check"><input type="checkbox" id="ptosis"> Ptosis present</label>
+            <label class="check check--urgent"><input type="checkbox" id="fatigable"> Fatigable (worsens with sustained use)</label>
+            <label class="check check--urgent"><input type="checkbox" id="painOnMovement"> Pain on eye movement</label>
+          </div>
+        </div>
         </div>
 
-        <h3>Motility Deficits</h3>
-        <p class="small">Click cells to mark gaze limitations. View from examiner's perspective (patient's right is on your left).</p>
+        <div class="section-block section-block--primary" id="section-grid">
+          <h3>Motility Deficits</h3>
+          <p class="section-desc">Click cells to mark gaze limitations. View from examiner's perspective (patient's right is on your left).</p>
 
-        <div class="eom-dual-grid">
+          <div class="eom-dual-grid">
           <div class="eom-eye-section">
             <h4>OD (Right Eye)</h4>
             <div class="eom-grid" id="eomGridOD" data-eye="OD">
@@ -152,15 +166,20 @@
               <div class="eom-cell" data-gaze="downright" title="Down and Right - SO">SO</div>
             </div>
           </div>
+          </div>
         </div>
 
-        <h4 style="margin: 16px 0 8px; color: var(--muted); font-size: 0.85rem;">Summary Flags (auto-detected from grid or manually check):</h4>
-        <div class="row">
-          <label class="check"><input type="checkbox" id="abductionDeficit"> Abduction deficit (CN VI)</label>
-          <label class="check"><input type="checkbox" id="adductionDeficit"> Adduction deficit (CN III/INO)</label>
-          <label class="check"><input type="checkbox" id="verticalLimitation"> Vertical limitation (CN III/IV)</label>
+        <div class="section-block" id="section-summary">
+          <h3>Summary flags</h3>
+          <p class="section-desc">Auto-detected from the grid, or toggle manually if needed.</p>
+          <div class="row">
+            <label class="check"><input type="checkbox" id="abductionDeficit"> Abduction deficit (CN VI)</label>
+            <label class="check"><input type="checkbox" id="adductionDeficit"> Adduction deficit (CN III/INO)</label>
+            <label class="check"><input type="checkbox" id="verticalLimitation"> Vertical limitation (CN III/IV)</label>
+          </div>
         </div>
 
+        <div class="section-block" id="section-comitance">
         <h3>Comitance</h3>
         <div class="row">
           <label>Comitant?
@@ -172,14 +191,20 @@
           </label>
         </div>
 
-        <h3>Notes</h3>
-        <div class="row">
-          <label style="flex:1; min-width:260px;">
-            <span class="small">Free text (stored in session)</span>
-            <input type="text" id="eomNotes" placeholder="e.g., worse in R gaze; new onset; fatigable..." />
-          </label>
         </div>
 
+        <div class="section-block" id="section-notes">
+          <h3>Notes</h3>
+          <div class="row">
+            <label style="flex:1; min-width:260px;">
+              <span class="small">Free text (stored in session)</span>
+              <input type="text" id="eomNotes" placeholder="e.g., worse in R gaze; new onset; fatigable..." />
+            </label>
+          </div>
+        </div>
+
+        <div class="section-block" id="section-guidance">
+        <h3>Guidance</h3>
         <div class="metrics">
           <div class="metric">
             <div class="k">Localization hint</div>
@@ -193,6 +218,7 @@
             <div class="k">Next discriminator</div>
             <div class="v small" id="eomNext">—</div>
           </div>
+        </div>
         </div>
       </section>
     </main>

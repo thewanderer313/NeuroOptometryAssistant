@@ -327,6 +327,14 @@ select {
   min-width: 220px
 }
 
+input[type="number"]:focus,
+select:focus,
+input[type="text"]:focus,
+textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(110, 231, 183, 0.12);
+}
+
 .check {
   display: flex;
   flex-direction: row;
@@ -843,8 +851,17 @@ input[type="text"] {
   width: 100%;
 }
 
-input[type="text"]:focus {
-  border-color: var(--accent);
+textarea {
+  background: #0e1017;
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 12px 12px;
+  min-width: 180px;
+  outline: none;
+  font-size: 1rem;
+  width: 100%;
+  resize: vertical;
 }
 
 /* ===== TESTING RECOMMENDATIONS ===== */
@@ -919,6 +936,76 @@ input[type="text"]:focus {
 
 .test-technique strong {
   color: var(--accent);
+}
+
+/* ===== QUICK JUMP BAR ===== */
+.jumpbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 14px;
+  background: rgba(18, 20, 27, 0.9);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.jumpbar-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  font-weight: 900;
+  margin-right: 6px;
+}
+
+.jumpbar a {
+  text-decoration: none;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  background: #0e1017;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.jumpbar a:hover {
+  color: var(--text);
+  border-color: rgba(110, 231, 183, 0.35);
+}
+
+/* ===== SECTION BLOCKS ===== */
+.section-block {
+  margin: 14px 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #0e1017;
+}
+
+.section-block--primary {
+  border-color: rgba(110, 231, 183, 0.35);
+  box-shadow: inset 0 0 0 1px rgba(110, 231, 183, 0.12);
+}
+
+.section-block.presets-section {
+  background: rgba(110, 231, 183, 0.05);
+  border-color: rgba(110, 231, 183, 0.2);
+}
+
+.section-block h3 {
+  margin-top: 0;
+}
+
+.section-desc {
+  margin: -2px 0 10px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.section-block,
+section.card[id] {
+  scroll-margin-top: 90px;
 }
 
 /* ===== OPTIC NERVE CATEGORY BADGE ===== */
