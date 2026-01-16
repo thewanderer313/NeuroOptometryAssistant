@@ -5,9 +5,30 @@ import { compute } from "./engine.js";
 
 const $ = (id) => document.getElementById(id);
 
+function getDecimalSeparator() {
+  const parts = new Intl.NumberFormat().formatToParts(1.1);
+  const decimal = parts.find(p => p.type === "decimal");
+  return decimal ? decimal.value : ".";
+}
+
+function bindDecimalInput(el) {
+  const decimal = getDecimalSeparator();
+  if (decimal !== ",") return;
+
+  el.addEventListener("keydown", (e) => {
+    if (e.key !== ".") return;
+    e.preventDefault();
+    const start = el.selectionStart ?? el.value.length;
+    const end = el.selectionEnd ?? el.value.length;
+    el.setRangeText(",", start, end, "end");
+  });
+}
+
 function toNumOrNull(v) {
   if (v === "" || v === null || v === undefined) return null;
-  const n = Number(v);
+  const normalized = String(v).trim().replace(",", ".");
+  if (!normalized) return null;
+  const n = Number(normalized);
   return Number.isFinite(n) ? n : null;
 }
 function formatMm(x) {
@@ -151,11 +172,24 @@ function syncFromSession(session) {
   $("neuroSx").checked = !!session.triage.neuroSx;
   $("trauma").checked = !!session.triage.trauma;
 
-  // pupils
-  $("odLight").value = session.pupils.odLight ?? "";
-  $("osLight").value = session.pupils.osLight ?? "";
-  $("odDark").value  = session.pupils.odDark ?? "";
-  $("osDark").value  = session.pupils.osDark ?? "";
+  // pupils - only update if not focused (to preserve cursor position while typing)
+  const odLightEl = $("odLight");
+  const osLightEl = $("osLight");
+  const odDarkEl = $("odDark");
+  const osDarkEl = $("osDark");
+
+  if (document.activeElement !== odLightEl) {
+    odLightEl.value = session.pupils.odLight ?? "";
+  }
+  if (document.activeElement !== osLightEl) {
+    osLightEl.value = session.pupils.osLight ?? "";
+  }
+  if (document.activeElement !== odDarkEl) {
+    odDarkEl.value = session.pupils.odDark ?? "";
+  }
+  if (document.activeElement !== osDarkEl) {
+    osDarkEl.value = session.pupils.osDark ?? "";
+  }
 
   $("odLightRxn").value = session.pupils.odLightRxn || "";
   $("osLightRxn").value = session.pupils.osLightRxn || "";
@@ -359,7 +393,31 @@ function applyPreset(presetType) {
   }
 }
 
+// Tab switching
+function initTabs() {
+  const tabs = document.querySelectorAll(".page-tab");
+  const contents = document.querySelectorAll(".tab-content");
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      const targetId = `tab-${tab.dataset.tab}`;
+
+      // Update active tab
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      // Update visible content
+      contents.forEach(c => {
+        c.classList.toggle("active", c.id === targetId);
+      });
+    });
+  });
+}
+
 function bind() {
+  // Initialize tabs
+  initTabs();
+
   // triage checkboxes
   $("acuteOnset").addEventListener("change", e => sessionStore.set("triage.acuteOnset", e.target.checked));
   $("painful").addEventListener("change", e => sessionStore.set("triage.painful", e.target.checked));
@@ -371,6 +429,11 @@ function bind() {
   $("osLight").addEventListener("input", e => sessionStore.set("pupils.osLight", toNumOrNull(e.target.value)));
   $("odDark").addEventListener("input",  e => sessionStore.set("pupils.odDark",  toNumOrNull(e.target.value)));
   $("osDark").addEventListener("input",  e => sessionStore.set("pupils.osDark",  toNumOrNull(e.target.value)));
+
+  bindDecimalInput($("odLight"));
+  bindDecimalInput($("osLight"));
+  bindDecimalInput($("odDark"));
+  bindDecimalInput($("osDark"));
 
   // reactivity
   $("odLightRxn").addEventListener("change", e => sessionStore.set("pupils.odLightRxn", e.target.value));

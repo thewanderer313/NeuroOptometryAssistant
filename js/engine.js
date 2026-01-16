@@ -58,12 +58,22 @@ function hasOpticNerveData(session) {
     on.optociliaryShunts || on.cupping || on.hemorrhages;
 }
 
+// Check if nystagmus module has meaningful data entered
+function hasNystagmusData(session) {
+  const n = session.nystagmus || {};
+  return n.present || n.type || n.waveform || n.downbeatPrimary ||
+    n.upbeatPrimary || n.convergenceRetraction || n.dissociated ||
+    n.periodicAlternating || n.seesaw || n.gazeEvoked || n.positional ||
+    n.oscillopsia || n.vertigo;
+}
+
 export function deriveFeatures(session) {
   const t = session.triage || {};
   const p = session.pupils || {};
   const on = session.opticNerve || {};
   const e = session.eom || {};
   const vf = session.visualFields || {};
+  const n = session.nystagmus || {};
 
   // Pupils
   const odL = num(p.odLight), osL = num(p.osLight);
@@ -223,7 +233,32 @@ export function deriveFeatures(session) {
     vf_bitemporal: !!vf.bitemporal,
     vf_altitudinal: !!vf.altitudinal,
     vf_central_scotoma: !!vf.centralScotoma,
-    vf_congruity: vf.congruity || "" // "low" | "moderate" | "high" | ""
+    vf_congruity: vf.congruity || "", // "low" | "moderate" | "high" | ""
+
+    // Nystagmus
+    nystagmus_present: !!n.present,
+    nystagmus_type: n.type || "",           // "jerk", "pendular", "mixed"
+    nystagmus_waveform: n.waveform || "",   // "horizontal", "vertical", "torsional", "mixed"
+    nystagmus_fastPhase: n.fastPhase || "", // direction of fast phase
+    nystagmus_amplitude: n.amplitude || "", // "fine", "medium", "coarse"
+    nystagmus_frequency: n.frequency || "", // "low", "moderate", "high"
+    nystagmus_primaryPosition: !!n.primaryPosition,
+    nystagmus_gazeEvoked: !!n.gazeEvoked,
+    nystagmus_gazeEvokedDirection: n.gazeEvokedDirection || "",
+    nystagmus_downbeat: !!n.downbeatPrimary,
+    nystagmus_upbeat: !!n.upbeatPrimary,
+    nystagmus_convergenceRetraction: !!n.convergenceRetraction,
+    nystagmus_seesaw: !!n.seesaw,
+    nystagmus_periodicAlternating: !!n.periodicAlternating,
+    nystagmus_dissociated: !!n.dissociated,
+    nystagmus_latent: !!n.latent,
+    nystagmus_oscillopsia: !!n.oscillopsia,
+    nystagmus_vertigo: !!n.vertigo,
+    nystagmus_headShaking: !!n.headShaking,
+    nystagmus_headTilt: !!n.headTilt,
+    nystagmus_positional: !!n.positional,
+    nystagmus_spontaneous: !!n.spontaneous,
+    nystagmus_directionChanging: !!n.directionChanging
   };
 }
 
@@ -426,11 +461,82 @@ export function generateTestingRecommendations(f, differential) {
       "Unilateral biopsy (2-3cm length) within 2 weeks of starting steroids. Steroids don't mask pathology quickly.");
   }
 
+  // ===== NYSTAGMUS-SPECIFIC TESTING =====
+
+  if (f.nystagmus_present || f.nystagmus_downbeat || f.nystagmus_upbeat || f.nystagmus_convergenceRetraction) {
+    addTest("Frenzel Goggles Examination", "high",
+      "Magnify eye movements (20x) and eliminate visual fixation to unmask nystagmus",
+      "Patient wears Frenzel lenses in darkened room. Observe for spontaneous nystagmus, direction, and suppression with fixation.");
+  }
+
+  if (f.nystagmus_positional || f.nystagmus_vertigo) {
+    addTest("Dix-Hallpike Maneuver", "high",
+      "Test for posterior canal BPPV - most common cause of positional vertigo",
+      "Turn head 45°, rapidly lower to supine with head hanging. Watch for torsional-vertical nystagmus with latency. Repeat each side.");
+
+    addTest("Supine Roll Test", "moderate",
+      "Test for horizontal canal BPPV (less common)",
+      "Supine, turn head rapidly to each side. Geotropic (toward ground) or apogeotropic nystagmus pattern.");
+
+    addTest("Head Impulse Test (HIT)", "high",
+      "Assess vestibulo-ocular reflex - distinguishes peripheral from central",
+      "Rapid head turns while patient fixates. Corrective saccade indicates peripheral lesion (positive test).");
+  }
+
+  if (f.nystagmus_downbeat) {
+    addTest("MRI Craniocervical Junction", "critical",
+      "Downbeat nystagmus localizes to cervicomedullary junction - rule out Chiari malformation",
+      "Thin cuts through foramen magnum. Look for tonsillar ectopia, syrinx, skull base anomalies.");
+
+    addTest("B12 Level", "high",
+      "Subacute combined degeneration can cause downbeat nystagmus",
+      "Check B12, methylmalonic acid, homocysteine.");
+
+    addTest("Anti-GAD Antibodies", "moderate",
+      "Autoimmune cerebellitis with anti-GAD can cause downbeat nystagmus",
+      "Anti-GAD65 antibodies. Consider paraneoplastic panel if clinical suspicion.");
+  }
+
+  if (f.nystagmus_upbeat) {
+    addTest("MRI Brainstem", "critical",
+      "Upbeat nystagmus localizes to pontomedullary junction or anterior vermis",
+      "DWI for stroke, thin cuts through brainstem. Look for MS plaques, infarct, tumor.");
+
+    addTest("Thiamine Level (B1)", "high",
+      "Wernicke encephalopathy can present with upbeat nystagmus",
+      "Give thiamine empirically if suspected - don't wait for levels. Classic triad: confusion, ataxia, ophthalmoplegia.");
+  }
+
+  if (f.nystagmus_convergenceRetraction || (f.nystagmus_present && f.verticalLimitation === true)) {
+    addTest("MRI Midbrain/Pineal Region", "critical",
+      "Convergence-retraction nystagmus with upgaze palsy = Parinaud syndrome",
+      "Attention to tectum, pineal gland, aqueduct. Look for mass, hydrocephalus.");
+  }
+
+  if (f.nystagmus_seesaw || (f.nystagmus_present && f.vf_bitemporal)) {
+    addTest("MRI Sella/Parasellar with Contrast", "critical",
+      "Seesaw nystagmus with bitemporal field loss localizes to parasellar region",
+      "Dedicated pituitary protocol. Assess for large adenoma, craniopharyngioma, chiasmal lesion.");
+  }
+
+  if (f.nystagmus_gazeEvoked && !f.nystagmus_primaryPosition) {
+    addTest("Drug Level Check", "high",
+      "Gaze-evoked nystagmus commonly drug-induced",
+      "Check levels: phenytoin, carbamazepine, lithium, phenobarbital. Review medication list.");
+  }
+
+  if (f.nystagmus_dissociated && f.adductionDeficit === true) {
+    addTest("MRI Brain with Attention to MLF", "critical",
+      "Dissociated nystagmus with adduction deficit suggests INO - lesion in medial longitudinal fasciculus",
+      "Thin cuts through brainstem. Young: MS most common. Older: stroke more likely.");
+  }
+
   // ===== COMPREHENSIVE NEURO-OPHTHALMIC EVALUATION =====
 
   // If multiple concerning findings, recommend comprehensive workup
   const concernScore = (f.hasRAPD ? 2 : 0) + (f.discPallor ? 2 : 0) + (f.colorDeficit ? 1 : 0) +
-    (f.vaReduced ? 1 : 0) + (f.trauma ? 2 : 0) + (f.painful ? 1 : 0) + (f.acute ? 1 : 0);
+    (f.vaReduced ? 1 : 0) + (f.trauma ? 2 : 0) + (f.painful ? 1 : 0) + (f.acute ? 1 : 0) +
+    (f.nystagmus_downbeat ? 2 : 0) + (f.nystagmus_upbeat ? 2 : 0) + (f.nystagmus_convergenceRetraction ? 2 : 0);
 
   if (concernScore >= 4) {
     addTest("Comprehensive Neuro-Ophthalmic Examination", "high",
@@ -1068,6 +1174,11 @@ export function scoreDifferential(f) {
     if (f.adductionDeficit === true && !f.ptosis && !largePattern) {
       s += 2;
       why.push("No ptosis, pupil sparing (unlike CN III)");
+    }
+    // Nystagmus findings from nystagmus module
+    if (f.nystagmus_dissociated && f.adductionDeficit === true) {
+      s += 3;
+      why.push("Dissociated nystagmus (greater in abducting eye - pathognomonic)");
     }
     if (f.neuroSx) {
       s += 1;
@@ -2467,6 +2578,11 @@ export function scoreDifferential(f) {
       s += 2;
       why.push("Large pupils with LND (Parinaud pattern)");
     }
+    // Convergence-retraction nystagmus from nystagmus module
+    if (f.nystagmus_convergenceRetraction) {
+      s += 4;
+      why.push("Convergence-retraction nystagmus (pathognomonic for dorsal midbrain)");
+    }
     if (f.neuroSx) {
       s += 1;
       why.push("Neurological symptoms");
@@ -2596,6 +2712,412 @@ export function scoreDifferential(f) {
     ], "eom");
   }
 
+  // =====================================
+  // NYSTAGMUS-BASED DIAGNOSES
+  // =====================================
+  // Reference: Leigh RJ, Zee DS. The Neurology of Eye Movements. 5th ed.
+
+  // 1. Downbeat Nystagmus
+  // Classic localization: craniocervical junction (Chiari, MS, spinocerebellar degeneration)
+  {
+    let s = 0; const why = [];
+    const nextSteps = [];
+
+    if (f.nystagmus_downbeat) {
+      s += 6;
+      why.push("Downbeat nystagmus in primary position (highly localizing)");
+    }
+    if (f.nystagmus_waveform === "vertical" && !f.nystagmus_downbeat && f.nystagmus_fastPhase === "down") {
+      s += 4;
+      why.push("Vertical nystagmus with downward fast phase");
+    }
+    if (f.nystagmus_primaryPosition && f.nystagmus_waveform === "vertical") {
+      s += 2;
+      why.push("Vertical nystagmus present in primary gaze");
+    }
+    if (f.neuroSx) {
+      s += 2;
+      why.push("Other neurological symptoms");
+    }
+    // Often worse in downgaze and lateral gaze
+    if (f.nystagmus_gazeEvoked) {
+      s += 1;
+      why.push("Gaze-evoked component");
+    }
+
+    if (s >= 5) {
+      nextSteps.push("MRI brain and craniocervical junction with attention to foramen magnum");
+      nextSteps.push("Look for: Chiari malformation, MS plaques, spinocerebellar ataxia, stroke");
+      nextSteps.push("Check B12, anti-GAD antibodies, paraneoplastic panel if no structural cause");
+      nextSteps.push("Consider: Lithium toxicity, anticonvulsant toxicity (phenytoin, carbamazepine)");
+      nextSteps.push("Treatment options: 4-aminopyridine, baclofen, clonazepam");
+      add("Downbeat nystagmus", s, why, nextSteps, "nystagmus");
+    }
+  }
+
+  // 2. Upbeat Nystagmus
+  // Localizes to: pontomedullary junction, anterior vermis, medulla
+  {
+    let s = 0; const why = [];
+    const nextSteps = [];
+
+    if (f.nystagmus_upbeat) {
+      s += 6;
+      why.push("Upbeat nystagmus in primary position");
+    }
+    if (f.nystagmus_waveform === "vertical" && !f.nystagmus_upbeat && f.nystagmus_fastPhase === "up") {
+      s += 4;
+      why.push("Vertical nystagmus with upward fast phase");
+    }
+    if (f.acute) {
+      s += 2;
+      why.push("Acute onset (stroke, demyelination, or toxin)");
+    }
+    if (f.neuroSx) {
+      s += 1;
+      why.push("Other neurological symptoms");
+    }
+
+    if (s >= 5) {
+      nextSteps.push("MRI brain with attention to brainstem (pontomedullary junction, vermis)");
+      nextSteps.push("Consider: Stroke, MS, Wernicke encephalopathy, brainstem encephalitis");
+      nextSteps.push("Check thiamine level if Wernicke suspected (give thiamine empirically)");
+      nextSteps.push("Drug screen: organophosphates, nicotine can cause upbeat nystagmus");
+      nextSteps.push("Treatment: 4-aminopyridine, baclofen may help");
+      add("Upbeat nystagmus", s, why, nextSteps, "nystagmus");
+    }
+  }
+
+  // 3. Periodic Alternating Nystagmus (PAN)
+  // Horizontal nystagmus that reverses direction every 2-4 minutes
+  {
+    let s = 0; const why = [];
+
+    if (f.nystagmus_periodicAlternating) {
+      s += 7;
+      why.push("Periodic alternating nystagmus (direction reverses cyclically)");
+    }
+    if (f.nystagmus_waveform === "horizontal" && f.nystagmus_directionChanging) {
+      s += 3;
+      why.push("Horizontal direction-changing nystagmus");
+    }
+    if (f.neuroSx) {
+      s += 1;
+      why.push("Associated neurological findings");
+    }
+
+    if (s >= 5) add("Periodic alternating nystagmus (PAN)", s, why, [
+      "MRI brain with attention to cerebellar nodulus and uvula",
+      "Etiologies: Chiari, MS, spinocerebellar ataxia, post-viral cerebellitis",
+      "Can be congenital or acquired",
+      "Treatment: Baclofen is often effective (GABAb agonist)",
+      "Observe for full cycle (4-8 minutes) to confirm alternation"
+    ], "nystagmus");
+  }
+
+  // 4. Vestibular Nystagmus - Peripheral
+  // BPPV, vestibular neuritis, Meniere's disease, labyrinthitis
+  {
+    let s = 0; const why = [];
+    const nextSteps = [];
+
+    // Classic peripheral pattern: horizontal-torsional, unidirectional
+    if (f.nystagmus_waveform === "horizontal" || f.nystagmus_waveform === "torsional" || f.nystagmus_waveform === "mixed") {
+      if (!f.nystagmus_directionChanging && f.nystagmus_present) {
+        s += 3;
+        why.push("Unidirectional horizontal/torsional pattern (peripheral pattern)");
+      }
+    }
+    if (f.nystagmus_positional) {
+      s += 3;
+      why.push("Position-dependent (BPPV pattern)");
+    }
+    if (f.nystagmus_vertigo) {
+      s += 2;
+      why.push("Vertigo present (vestibular involvement)");
+    }
+    if (f.nystagmus_spontaneous && !f.nystagmus_primaryPosition) {
+      s += 1;
+      why.push("Spontaneous but suppresses with fixation");
+    }
+    // Peripheral: no central signs
+    if (!f.nystagmus_downbeat && !f.nystagmus_upbeat && !f.nystagmus_convergenceRetraction && f.nystagmus_present) {
+      s += 1;
+      why.push("No central nystagmus patterns");
+    }
+
+    if (s >= 4) {
+      nextSteps.push("Dix-Hallpike maneuver for posterior canal BPPV");
+      nextSteps.push("Supine roll test for horizontal canal BPPV");
+      nextSteps.push("Head impulse test (HIT): positive suggests peripheral lesion");
+      nextSteps.push("Canalith repositioning (Epley/Semont) if BPPV confirmed");
+      nextSteps.push("Consider: Vestibular neuritis, labyrinthitis, Meniere's disease");
+      nextSteps.push("If persistent: VNG/ENG, caloric testing, audiometry");
+      add("Vestibular nystagmus - Peripheral", s, why, nextSteps, "nystagmus");
+    }
+  }
+
+  // 5. Vestibular Nystagmus - Central
+  // Stroke, MS, tumor affecting vestibular nuclei or connections
+  {
+    let s = 0; const why = [];
+    const nextSteps = [];
+
+    // Central patterns: pure vertical, direction-changing, no suppression
+    if (f.nystagmus_waveform === "vertical" && !f.nystagmus_downbeat && !f.nystagmus_upbeat) {
+      s += 3;
+      why.push("Pure vertical nystagmus (central pattern)");
+    }
+    if (f.nystagmus_directionChanging && f.nystagmus_gazeEvoked) {
+      s += 3;
+      why.push("Direction-changing with gaze (central pattern)");
+    }
+    if (f.nystagmus_primaryPosition && !f.nystagmus_positional) {
+      s += 2;
+      why.push("Present in primary position without positional trigger");
+    }
+    if (f.neuroSx) {
+      s += 2;
+      why.push("Other neurological symptoms (brainstem/cerebellar)");
+    }
+    if (f.acute) {
+      s += 1;
+      why.push("Acute onset");
+    }
+    // No vertigo or vertigo without suppression suggests central
+    if (f.nystagmus_present && !f.nystagmus_vertigo) {
+      s += 1;
+      why.push("Nystagmus without significant vertigo (central pattern)");
+    }
+
+    if (s >= 5) {
+      nextSteps.push("STAT MRI brain/brainstem with DWI (rule out stroke)");
+      nextSteps.push("HINTS exam: Head Impulse, Nystagmus, Test of Skew");
+      nextSteps.push("If HINTS central: stroke until proven otherwise");
+      nextSteps.push("Consider: MS, tumor, Wernicke encephalopathy");
+      nextSteps.push("Neurology consultation recommended");
+      add("Vestibular nystagmus - Central", s, why, nextSteps, "neuro");
+    }
+  }
+
+  // 6. Seesaw Nystagmus
+  // Parasellar/chiasmal lesions, septo-optic dysplasia
+  {
+    let s = 0; const why = [];
+
+    if (f.nystagmus_seesaw) {
+      s += 7;
+      why.push("Seesaw nystagmus (one eye rises/intorts while other falls/extorts)");
+    }
+    if (f.vf_bitemporal) {
+      s += 3;
+      why.push("Bitemporal visual field defect (chiasmal involvement)");
+    }
+    if (f.nystagmus_waveform === "mixed" || f.nystagmus_waveform === "torsional") {
+      s += 1;
+      why.push("Mixed/torsional component");
+    }
+
+    if (s >= 5) add("Seesaw nystagmus", s, why, [
+      "MRI brain with attention to sella/parasellar region",
+      "Classic association: large parasellar mass compressing chiasm",
+      "Also seen: Septo-optic dysplasia, brainstem stroke",
+      "Often associated with bitemporal hemianopia",
+      "Endocrine workup if pituitary lesion suspected"
+    ], "nystagmus");
+  }
+
+  // 7. Convergence-Retraction Nystagmus (Parinaud/Dorsal Midbrain enhancement)
+  // This enhances the existing Parinaud diagnosis with nystagmus specificity
+  {
+    let s = 0; const why = [];
+    const nextSteps = [];
+
+    if (f.nystagmus_convergenceRetraction) {
+      s += 6;
+      why.push("Convergence-retraction nystagmus (pathognomonic for dorsal midbrain)");
+    }
+    if (f.verticalLimitation === true) {
+      s += 3;
+      why.push("Vertical gaze limitation (upgaze palsy)");
+    }
+    if (f.lnd) {
+      s += 2;
+      why.push("Light-near dissociation (pretectal involvement)");
+    }
+    if (f.neuroSx) {
+      s += 1;
+      why.push("Other neurological findings");
+    }
+
+    if (s >= 5) {
+      nextSteps.push("MRI brain with attention to dorsal midbrain/pineal region");
+      nextSteps.push("Look for: Pinealoma, tectal glioma, MS, stroke, hydrocephalus");
+      nextSteps.push("Check for lid retraction (Collier sign), convergence spasm");
+      nextSteps.push("If mass: neurosurgical consultation");
+      nextSteps.push("Parinaud syndrome = upgaze palsy + convergence-retraction nystagmus + light-near dissociation");
+      add("Convergence-retraction nystagmus (Parinaud syndrome)", s, why, nextSteps, "nystagmus");
+    }
+  }
+
+  // 8. Dissociated Nystagmus (INO enhancement)
+  // Nystagmus greater in abducting eye - classic INO finding
+  {
+    let s = 0; const why = [];
+
+    if (f.nystagmus_dissociated) {
+      s += 4;
+      why.push("Dissociated nystagmus (asymmetric between eyes)");
+    }
+    if (f.adductionDeficit === true && f.nystagmus_dissociated) {
+      s += 3;
+      why.push("Adduction deficit with abducting eye nystagmus (INO pattern)");
+    }
+    if (f.nystagmus_waveform === "horizontal") {
+      s += 1;
+      why.push("Horizontal waveform");
+    }
+    if (f.neuroSx) {
+      s += 2;
+      why.push("Other neurological symptoms (MS, stroke)");
+    }
+
+    if (s >= 5) add("Dissociated nystagmus (INO pattern)", s, why, [
+      "MRI brain with attention to medial longitudinal fasciculus (MLF)",
+      "Young patient: MS is most common cause (often bilateral)",
+      "Older patient: Stroke is more likely (usually unilateral)",
+      "Test convergence: typically preserved in INO (helps confirm)",
+      "Check for other brainstem signs"
+    ], "nystagmus");
+  }
+
+  // 9. Gaze-Evoked Nystagmus
+  // Present with eccentric gaze, absent in primary - cerebellar or drug-induced
+  {
+    let s = 0; const why = [];
+
+    if (f.nystagmus_gazeEvoked && !f.nystagmus_primaryPosition) {
+      s += 4;
+      why.push("Gaze-evoked nystagmus (present only in eccentric gaze)");
+    }
+    if (f.nystagmus_gazeEvoked && f.nystagmus_directionChanging) {
+      s += 2;
+      why.push("Direction-changing with gaze direction");
+    }
+    if (f.nystagmus_waveform === "horizontal") {
+      s += 1;
+      why.push("Horizontal waveform");
+    }
+    // Symmetric bilateral suggests drug/toxin
+    if (f.nystagmus_gazeEvoked && !f.nystagmus_dissociated) {
+      s += 1;
+      why.push("Symmetric pattern");
+    }
+
+    if (s >= 4) add("Gaze-evoked nystagmus", s, why, [
+      "Common with sedatives, anticonvulsants, alcohol",
+      "Check drug levels: phenytoin, carbamazepine, lithium",
+      "If persistent without medication: consider cerebellar pathology",
+      "Floccular/parafloccular lesions impair gaze-holding",
+      "Usually benign if medication-related"
+    ], "nystagmus");
+  }
+
+  // 10. Congenital/Infantile Nystagmus
+  {
+    let s = 0; const why = [];
+
+    if (f.nystagmus_type === "pendular" && f.nystagmus_present) {
+      s += 3;
+      why.push("Pendular waveform (common in congenital)");
+    }
+    if (f.nystagmus_latent) {
+      s += 4;
+      why.push("Latent nystagmus (appears with monocular viewing)");
+    }
+    if (f.nystagmus_headTilt || f.nystagmus_headShaking) {
+      s += 2;
+      why.push("Null point/head positioning (compensatory)");
+    }
+    if (!f.acute && !f.nystagmus_oscillopsia) {
+      s += 2;
+      why.push("No oscillopsia (brain adapted to chronic nystagmus)");
+    }
+    if (f.nystagmus_waveform === "horizontal") {
+      s += 1;
+      why.push("Horizontal (most common in infantile)");
+    }
+
+    if (s >= 5) add("Congenital/Infantile nystagmus syndrome", s, why, [
+      "Usually horizontal, may have null point",
+      "Waveform often 'accelerating slow phase' (pathognomonic)",
+      "Latent nystagmus suggests early-onset strabismus association",
+      "Rule out sensory defects: albinism, optic nerve hypoplasia, achromatopsia",
+      "No urgent workup unless new onset in adult",
+      "Treatment: Prisms, surgery to move null point, contact lenses"
+    ], "nystagmus");
+  }
+
+  // 11. Opsoclonus
+  // Chaotic, multidirectional saccadic intrusions - paraneoplastic emergency
+  {
+    let s = 0; const why = [];
+    const nextSteps = [];
+
+    if (f.nystagmus_type === "mixed" && f.nystagmus_waveform === "mixed") {
+      s += 3;
+      why.push("Chaotic/multidirectional eye movements");
+    }
+    if (f.nystagmus_present && f.acute && f.neuroSx) {
+      s += 4;
+      why.push("Acute onset with neurological symptoms");
+    }
+    if (f.nystagmus_oscillopsia && f.nystagmus_present) {
+      s += 2;
+      why.push("Oscillopsia (perception of visual instability)");
+    }
+
+    if (s >= 6) {
+      nextSteps.push("STAT: Paraneoplastic antibody panel (anti-Ri, anti-Yo, anti-Hu)");
+      nextSteps.push("CT chest/abdomen/pelvis for occult malignancy");
+      nextSteps.push("In adults: lung, breast, ovarian cancer associations");
+      nextSteps.push("In children: neuroblastoma (check urine catecholamines)");
+      nextSteps.push("Also consider: Post-infectious (viral), autoimmune encephalitis");
+      nextSteps.push("Treatment: Immunotherapy (IVIG, steroids, rituximab)");
+      add("Opsoclonus-myoclonus syndrome", s, why, nextSteps, "neuro");
+    }
+  }
+
+  // 12. Drug-Induced/Toxic Nystagmus
+  {
+    let s = 0; const why = [];
+
+    if (f.nystagmus_gazeEvoked && !f.nystagmus_primaryPosition) {
+      s += 3;
+      why.push("Gaze-evoked pattern (classic for toxicity)");
+    }
+    if (!f.nystagmus_dissociated && f.nystagmus_present) {
+      s += 2;
+      why.push("Symmetric between eyes");
+    }
+    if (f.nystagmus_waveform === "horizontal") {
+      s += 1;
+      why.push("Horizontal waveform");
+    }
+    if (!f.acute && !f.neuroSx && f.nystagmus_present) {
+      s += 2;
+      why.push("Isolated finding without other neurological signs");
+    }
+
+    if (s >= 4) add("Drug-induced/Toxic nystagmus", s, why, [
+      "Common culprits: Phenytoin, carbamazepine, lithium, alcohol, benzodiazepines",
+      "Check drug levels and medication history",
+      "Typically bilateral, symmetric, gaze-evoked",
+      "Resolves with dose reduction or discontinuation",
+      "If no medication history: consider toxic exposure or cerebellar pathology"
+    ], "nystagmus");
+  }
+
   // Sort by score descending, return top matches
   dx.sort((a, b) => b.score - a.score);
   return dx.filter(d => d.score > 0).slice(0, 12);
@@ -2609,9 +3131,10 @@ export function compute(session) {
   const eomReady = hasEOMData(session);
   const vfReady = hasVFData(session);
   const opticNerveReady = hasOpticNerveData(session);
+  const nystagmusReady = hasNystagmusData(session);
 
   // Compute differential if any module has meaningful data
-  const differential = (pupilReady || eomReady || vfReady || opticNerveReady) ? scoreDifferential(features) : [];
+  const differential = (pupilReady || eomReady || vfReady || opticNerveReady || nystagmusReady) ? scoreDifferential(features) : [];
 
   // Generate testing recommendations based on features and differential
   const testingRecommendations = generateTestingRecommendations(features, differential);
@@ -2704,8 +3227,34 @@ export function compute(session) {
       text: "RAPD detected without visible disc changes. Consider retrobulbar optic neuropathy, optic tract lesion, or asymmetric retinal disease. Color vision and VF testing recommended."
     };
   }
+  // Acute vertical nystagmus - posterior fossa concern
+  else if ((features.nystagmus_downbeat || features.nystagmus_upbeat) && features.acute) {
+    urgency = {
+      level: "warn",
+      text: "Acute vertical nystagmus (downbeat/upbeat) may indicate posterior fossa pathology. MRI brain/craniocervical junction recommended."
+    };
+  }
+  // Central vestibular pattern - stroke concern
+  else if (features.nystagmus_directionChanging && features.acute && features.neuroSx) {
+    urgency = {
+      level: "warn",
+      text: "Direction-changing nystagmus with acute neurological symptoms suggests central vestibular lesion. Consider stroke - HINTS exam and MRI recommended."
+    };
+  }
 
   // INFO: Notable findings
+  else if (features.nystagmus_convergenceRetraction && features.verticalLimitation === true) {
+    urgency = {
+      level: "info",
+      text: "Convergence-retraction nystagmus with vertical gaze limitation: Parinaud syndrome pattern. MRI midbrain/pineal region recommended."
+    };
+  }
+  else if (features.nystagmus_seesaw && features.vf_bitemporal) {
+    urgency = {
+      level: "info",
+      text: "Seesaw nystagmus with bitemporal field defect suggests parasellar lesion. MRI sella/pituitary with contrast recommended."
+    };
+  }
   else if (features.vf_bitemporal && features.vf_reliability !== "poor") {
     urgency = {
       level: "info",

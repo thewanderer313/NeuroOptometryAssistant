@@ -23,6 +23,7 @@
       <a href="./anisocoria.html">Anisocoria</a>
       <a href="./eom.html">EOM / Lesion</a>
       <a href="./visual-fields.html">Visual Fields</a>
+      <a href="./nystagmus.html">Nystagmus</a>
     </nav>
   </div>
 
@@ -33,6 +34,7 @@
         <a href="./anisocoria.html">Anisocoria</a>
         <a href="./eom.html">EOM / Lesion</a>
         <a href="./visual-fields.html">Visual Fields</a>
+        <a href="./nystagmus.html">Nystagmus</a>
       </div>
 
       <section class="card">
@@ -71,127 +73,146 @@
       <section class="card">
         <h2>EOM / Lesion Localization</h2>
 
-        <!-- Quick Presets -->
-        <div class="presets-section">
-          <h3>Quick Entry Presets</h3>
-          <div class="preset-row">
-            <button class="preset-btn" id="presetCN6" title="Abduction deficit with diplopia">
+        <!-- In-page tab navigation -->
+        <div class="page-tabs">
+          <button class="page-tab active" data-tab="motility">Motility</button>
+          <button class="page-tab" data-tab="findings">Findings</button>
+          <button class="page-tab" data-tab="presets">Presets</button>
+        </div>
+
+        <!-- Tab: Motility -->
+        <div class="tab-content active" id="tab-motility">
+          <!-- Key symptoms bar -->
+          <div class="symptoms-bar">
+            <label class="symptom-chip"><input type="checkbox" id="diplopia"> Diplopia</label>
+            <label class="symptom-chip"><input type="checkbox" id="ptosis"> Ptosis</label>
+            <label class="symptom-chip symptom-chip--urgent"><input type="checkbox" id="fatigable"> Fatigable</label>
+            <label class="symptom-chip symptom-chip--urgent"><input type="checkbox" id="painOnMovement"> Pain on movement</label>
+          </div>
+
+          <!-- Motility Grid -->
+          <div class="eom-dual-grid">
+            <div class="eom-eye-section">
+              <h4>OD (Right Eye)</h4>
+              <div class="eom-grid" id="eomGridOD" data-eye="OD">
+                <div class="eom-cell" data-gaze="upleft" title="Up and Left - IO">IO</div>
+                <div class="eom-cell" data-gaze="up" title="Up - SR">SR</div>
+                <div class="eom-cell" data-gaze="upright" title="Up and Right - SR">SR</div>
+                <div class="eom-cell" data-gaze="left" title="Left - LR (Abduction)">LR</div>
+                <div class="eom-cell center" title="Primary Position">PP</div>
+                <div class="eom-cell" data-gaze="right" title="Right - MR (Adduction)">MR</div>
+                <div class="eom-cell" data-gaze="downleft" title="Down and Left - SO">SO</div>
+                <div class="eom-cell" data-gaze="down" title="Down - IR">IR</div>
+                <div class="eom-cell" data-gaze="downright" title="Down and Right - IR">IR</div>
+              </div>
+            </div>
+            <div class="eom-eye-section">
+              <h4>OS (Left Eye)</h4>
+              <div class="eom-grid" id="eomGridOS" data-eye="OS">
+                <div class="eom-cell" data-gaze="upleft" title="Up and Left - SR">SR</div>
+                <div class="eom-cell" data-gaze="up" title="Up - SR">SR</div>
+                <div class="eom-cell" data-gaze="upright" title="Up and Right - IO">IO</div>
+                <div class="eom-cell" data-gaze="left" title="Left - MR (Adduction)">MR</div>
+                <div class="eom-cell center" title="Primary Position">PP</div>
+                <div class="eom-cell" data-gaze="right" title="Right - LR (Abduction)">LR</div>
+                <div class="eom-cell" data-gaze="downleft" title="Down and Left - IR">IR</div>
+                <div class="eom-cell" data-gaze="down" title="Down - IR">IR</div>
+                <div class="eom-cell" data-gaze="downright" title="Down and Right - SO">SO</div>
+              </div>
+            </div>
+          </div>
+          <p class="grid-hint">Click cells to mark gaze limitations</p>
+
+          <!-- Guidance panel -->
+          <div class="guidance-panel">
+            <div class="guidance-item">
+              <span class="guidance-label">Pattern</span>
+              <span class="guidance-value" id="eomLocalize">Enter findings</span>
+            </div>
+            <div class="guidance-item">
+              <span class="guidance-label">Next step</span>
+              <span class="guidance-value" id="eomNext">--</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Findings -->
+        <div class="tab-content" id="tab-findings">
+          <h3>Summary Flags</h3>
+          <p class="section-desc">Auto-detected from grid, or toggle manually.</p>
+          <div class="checkbox-grid">
+            <label class="check"><input type="checkbox" id="abductionDeficit"> Abduction deficit (CN VI)</label>
+            <label class="check"><input type="checkbox" id="adductionDeficit"> Adduction deficit (CN III/INO)</label>
+            <label class="check"><input type="checkbox" id="verticalLimitation"> Vertical limitation (CN III/IV)</label>
+          </div>
+
+          <h3>Comitance</h3>
+          <div class="input-row">
+            <label class="compact-label">
+              Deviation pattern
+              <select id="comitant">
+                <option value="">--</option>
+                <option value="true">Comitant (same in all gazes)</option>
+                <option value="false">Incomitant (varies with gaze)</option>
+              </select>
+            </label>
+          </div>
+
+          <h3>Notes</h3>
+          <label class="full">
+            <input type="text" id="eomNotes" placeholder="e.g., worse in R gaze; new onset..." />
+          </label>
+
+          <div class="guidance-panel">
+            <div class="guidance-item full-width">
+              <span class="guidance-label">Data Quality</span>
+              <span class="guidance-value" id="eomQuality">No findings entered</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Presets -->
+        <div class="tab-content" id="tab-presets">
+          <p class="section-desc">Quick-fill common EOM patterns for testing or demonstration.</p>
+
+          <h3>Cranial Nerve Patterns</h3>
+          <div class="preset-grid">
+            <button class="preset-btn" id="presetCN6" title="Abduction deficit">
               <span class="preset-icon">←</span>
-              <span class="preset-label">CN VI Pattern</span>
+              <span class="preset-label">CN VI</span>
             </button>
-            <button class="preset-btn" id="presetCN4" title="Vertical diplopia with torsion">
+            <button class="preset-btn" id="presetCN4" title="Vertical diplopia">
               <span class="preset-icon">↗</span>
-              <span class="preset-label">CN IV Pattern</span>
-            </button>
-            <button class="preset-btn" id="presetMG" title="Fatigable ptosis/diplopia">
-              <span class="preset-icon">⚡</span>
-              <span class="preset-label">MG Pattern</span>
+              <span class="preset-label">CN IV</span>
             </button>
             <button class="preset-btn" id="presetINO" title="Adduction deficit">
               <span class="preset-icon">→</span>
-              <span class="preset-label">INO Pattern</span>
+              <span class="preset-label">INO</span>
             </button>
-          </div>
-          <div class="preset-row">
-            <button class="preset-btn" id="presetTED" title="Thyroid eye disease - restrictive">
-              <span class="preset-icon">⬆</span>
-              <span class="preset-label">TED / Graves</span>
-            </button>
-            <button class="preset-btn" id="presetSkew" title="Skew deviation - brainstem">
-              <span class="preset-icon">⇅</span>
-              <span class="preset-label">Skew Deviation</span>
-            </button>
-            <button class="preset-btn" id="presetCPEO" title="Chronic progressive external ophthalmoplegia">
-              <span class="preset-icon">○</span>
-              <span class="preset-label">CPEO</span>
-            </button>
-            <button class="preset-btn" id="presetParinaud" title="Dorsal midbrain syndrome">
+            <button class="preset-btn" id="presetParinaud" title="Dorsal midbrain">
               <span class="preset-icon">▲</span>
               <span class="preset-label">Parinaud</span>
             </button>
           </div>
-        </div>
 
-        <h3>Key symptoms</h3>
-        <div class="row">
-          <label class="check"><input type="checkbox" id="diplopia"> Diplopia present</label>
-          <label class="check"><input type="checkbox" id="ptosis"> Ptosis present</label>
-          <label class="check check--urgent"><input type="checkbox" id="fatigable"> Fatigable (worsens with sustained use)</label>
-          <label class="check check--urgent"><input type="checkbox" id="painOnMovement"> Pain on eye movement</label>
-        </div>
-
-        <h3>Motility Deficits</h3>
-        <p class="small">Click cells to mark gaze limitations. View from examiner's perspective (patient's right is on your left).</p>
-
-        <div class="eom-dual-grid">
-          <div class="eom-eye-section">
-            <h4>OD (Right Eye)</h4>
-            <div class="eom-grid" id="eomGridOD" data-eye="OD">
-              <div class="eom-cell" data-gaze="upleft" title="Up and Left - IO">IO</div>
-              <div class="eom-cell" data-gaze="up" title="Up - SR">SR</div>
-              <div class="eom-cell" data-gaze="upright" title="Up and Right - SR">SR</div>
-              <div class="eom-cell" data-gaze="left" title="Left - LR (Abduction)">LR</div>
-              <div class="eom-cell center" title="Primary Position">PP</div>
-              <div class="eom-cell" data-gaze="right" title="Right - MR (Adduction)">MR</div>
-              <div class="eom-cell" data-gaze="downleft" title="Down and Left - SO">SO</div>
-              <div class="eom-cell" data-gaze="down" title="Down - IR">IR</div>
-              <div class="eom-cell" data-gaze="downright" title="Down and Right - IR">IR</div>
-            </div>
-          </div>
-          <div class="eom-eye-section">
-            <h4>OS (Left Eye)</h4>
-            <div class="eom-grid" id="eomGridOS" data-eye="OS">
-              <div class="eom-cell" data-gaze="upleft" title="Up and Left - SR">SR</div>
-              <div class="eom-cell" data-gaze="up" title="Up - SR">SR</div>
-              <div class="eom-cell" data-gaze="upright" title="Up and Right - IO">IO</div>
-              <div class="eom-cell" data-gaze="left" title="Left - MR (Adduction)">MR</div>
-              <div class="eom-cell center" title="Primary Position">PP</div>
-              <div class="eom-cell" data-gaze="right" title="Right - LR (Abduction)">LR</div>
-              <div class="eom-cell" data-gaze="downleft" title="Down and Left - IR">IR</div>
-              <div class="eom-cell" data-gaze="down" title="Down - IR">IR</div>
-              <div class="eom-cell" data-gaze="downright" title="Down and Right - SO">SO</div>
-            </div>
-          </div>
-        </div>
-
-        <h4 style="margin: 16px 0 8px; color: var(--muted); font-size: 0.85rem;">Summary Flags (auto-detected from grid or manually check):</h4>
-        <div class="row">
-          <label class="check"><input type="checkbox" id="abductionDeficit"> Abduction deficit (CN VI)</label>
-          <label class="check"><input type="checkbox" id="adductionDeficit"> Adduction deficit (CN III/INO)</label>
-          <label class="check"><input type="checkbox" id="verticalLimitation"> Vertical limitation (CN III/IV)</label>
-        </div>
-
-        <h3>Comitance</h3>
-        <div class="row">
-          <label>Comitant?
-            <select id="comitant">
-              <option value="">—</option>
-              <option value="true">Comitant (same in all gazes)</option>
-              <option value="false">Incomitant (varies with gaze)</option>
-            </select>
-          </label>
-        </div>
-
-        <h3>Notes</h3>
-        <div class="row">
-          <label style="flex:1; min-width:260px;">
-            <span class="small">Free text (stored in session)</span>
-            <input type="text" id="eomNotes" placeholder="e.g., worse in R gaze; new onset; fatigable..." />
-          </label>
-        </div>
-
-        <div class="metrics">
-          <div class="metric">
-            <div class="k">Localization hint</div>
-            <div class="v small" id="eomLocalize">—</div>
-          </div>
-          <div class="metric">
-            <div class="k">Data quality</div>
-            <div class="v small" id="eomQuality">—</div>
-          </div>
-          <div class="metric">
-            <div class="k">Next discriminator</div>
-            <div class="v small" id="eomNext">—</div>
+          <h3>Other Patterns</h3>
+          <div class="preset-grid">
+            <button class="preset-btn" id="presetMG" title="Fatigable ptosis/diplopia">
+              <span class="preset-icon">⚡</span>
+              <span class="preset-label">MG</span>
+            </button>
+            <button class="preset-btn" id="presetTED" title="Thyroid eye disease">
+              <span class="preset-icon">⬆</span>
+              <span class="preset-label">TED</span>
+            </button>
+            <button class="preset-btn" id="presetSkew" title="Skew deviation">
+              <span class="preset-icon">⇅</span>
+              <span class="preset-label">Skew</span>
+            </button>
+            <button class="preset-btn" id="presetCPEO" title="CPEO">
+              <span class="preset-icon">○</span>
+              <span class="preset-label">CPEO</span>
+            </button>
           </div>
         </div>
       </section>

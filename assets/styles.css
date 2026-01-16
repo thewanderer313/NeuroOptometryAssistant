@@ -327,6 +327,14 @@ select {
   min-width: 220px
 }
 
+input[type="number"]:focus,
+select:focus,
+input[type="text"]:focus,
+textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(110, 231, 183, 0.12);
+}
+
 .check {
   display: flex;
   flex-direction: row;
@@ -843,8 +851,17 @@ input[type="text"] {
   width: 100%;
 }
 
-input[type="text"]:focus {
-  border-color: var(--accent);
+textarea {
+  background: #0e1017;
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 12px 12px;
+  min-width: 180px;
+  outline: none;
+  font-size: 1rem;
+  width: 100%;
+  resize: vertical;
 }
 
 /* ===== TESTING RECOMMENDATIONS ===== */
@@ -921,10 +938,443 @@ input[type="text"]:focus {
   color: var(--accent);
 }
 
+/* ===== QUICK JUMP BAR ===== */
+.jumpbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 14px;
+  background: rgba(18, 20, 27, 0.9);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.jumpbar-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  font-weight: 900;
+  margin-right: 6px;
+}
+
+.jumpbar a {
+  text-decoration: none;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  background: #0e1017;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.jumpbar a:hover {
+  color: var(--text);
+  border-color: rgba(110, 231, 183, 0.35);
+}
+
+/* ===== SECTION BLOCKS ===== */
+.section-block {
+  margin: 14px 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #0e1017;
+}
+
+.section-block--primary {
+  border-color: rgba(110, 231, 183, 0.35);
+  box-shadow: inset 0 0 0 1px rgba(110, 231, 183, 0.12);
+}
+
+.section-block.presets-section {
+  background: rgba(110, 231, 183, 0.05);
+  border-color: rgba(110, 231, 183, 0.2);
+}
+
+.section-block h3 {
+  margin-top: 0;
+}
+
+.section-desc {
+  margin: -2px 0 10px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.section-block,
+section.card[id] {
+  scroll-margin-top: 90px;
+}
+
 /* ===== OPTIC NERVE CATEGORY BADGE ===== */
 .dx-category--optic {
   background: rgba(192, 132, 252, 0.15);
   color: #c084fc;
+}
+
+/* ===== IN-PAGE TABS ===== */
+.page-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0;
+}
+
+.page-tab {
+  padding: 12px 20px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  top: 1px;
+}
+
+.page-tab:hover {
+  color: var(--text);
+  background: rgba(110, 231, 183, 0.05);
+}
+
+.page-tab.active {
+  color: var(--accent);
+  background: var(--card);
+  border-color: var(--line);
+  border-bottom: 1px solid var(--card);
+}
+
+.tab-content {
+  display: none;
+  animation: fadeIn 0.2s ease;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== TRIAGE BAR ===== */
+.triage-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  background: rgba(251, 113, 133, 0.08);
+  border: 1px solid rgba(251, 113, 133, 0.25);
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.triage-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--danger);
+  margin-right: 4px;
+}
+
+.triage-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #0e1017;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.triage-chip:hover {
+  border-color: var(--danger);
+  color: var(--text);
+}
+
+.triage-chip:has(input:checked) {
+  background: rgba(251, 113, 133, 0.2);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.triage-chip input {
+  margin: 0;
+}
+
+/* ===== PUPIL ENTRY SECTION ===== */
+.pupil-entry-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pupil-diagram-compact {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  padding: 16px 0;
+}
+
+/* ===== MEASUREMENT GRID ===== */
+.measurement-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.measurement-group {
+  background: #0e1017;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.measurement-group h4 {
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.input-row {
+  display: flex;
+  gap: 12px;
+}
+
+.compact-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  flex: 1;
+}
+
+.compact-label input[type="number"],
+.compact-label select {
+  min-width: 0;
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1.1rem;
+}
+
+.aniso-readout {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: rgba(110, 231, 183, 0.08);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.aniso-readout strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ===== REACTIVITY ROW ===== */
+.reactivity-row {
+  display: flex;
+  gap: 16px;
+}
+
+.reactivity-row .compact-label {
+  flex: 1;
+}
+
+/* ===== GUIDANCE PANEL ===== */
+.guidance-panel {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(96, 165, 250, 0.08);
+  border: 1px solid rgba(96, 165, 250, 0.25);
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+.guidance-item {
+  flex: 1;
+}
+
+.guidance-item.full-width {
+  flex: none;
+  width: 100%;
+}
+
+.guidance-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--info);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.guidance-value {
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+/* ===== CHECKBOX GRID ===== */
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.checkbox-grid .check {
+  margin: 0;
+}
+
+/* ===== EYE FINDINGS GRID ===== */
+.eye-findings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 12px 0;
+}
+
+.eye-findings-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.eye-findings-col h4 {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.eye-findings-col .check {
+  margin: 0;
+}
+
+/* ===== PRESET GRID ===== */
+.preset-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.preset-grid .preset-btn {
+  min-width: 90px;
+  flex: 0 0 auto;
+}
+
+/* ===== SYMPTOMS BAR (EOM) ===== */
+.symptoms-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  background: rgba(110, 231, 183, 0.06);
+  border: 1px solid rgba(110, 231, 183, 0.2);
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.symptom-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #0e1017;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.symptom-chip:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.symptom-chip:has(input:checked) {
+  background: rgba(110, 231, 183, 0.15);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.symptom-chip--urgent:has(input:checked) {
+  background: rgba(251, 113, 133, 0.2);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.symptom-chip input {
+  margin: 0;
+}
+
+/* ===== CONTEXT BAR (VF) ===== */
+.context-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  background: rgba(96, 165, 250, 0.06);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.context-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #0e1017;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.context-chip:hover {
+  border-color: var(--info);
+  color: var(--text);
+}
+
+.context-chip:has(input:checked) {
+  background: rgba(96, 165, 250, 0.15);
+  border-color: var(--info);
+  color: var(--info);
+}
+
+.context-chip input {
+  margin: 0;
+}
+
+/* ===== GRID HINT ===== */
+.grid-hint {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 8px 0 16px;
 }
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */
@@ -949,5 +1399,386 @@ input[type="text"]:focus {
 
   .vf-pattern-grid {
     grid-template-columns: 1fr;
+  }
+
+  .page-tabs {
+    flex-wrap: wrap;
+  }
+
+  .page-tab {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+  }
+
+  .measurement-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .checkbox-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .eye-findings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .guidance-panel {
+    flex-direction: column;
+  }
+
+  .reactivity-row {
+    flex-direction: column;
+  }
+}
+
+/* ========================================
+   NYSTAGMUS MODULE STYLES
+   ======================================== */
+
+/* Nystagmus present toggle */
+.nystagmus-toggle {
+  margin: 16px 0;
+  padding: 12px 16px;
+  background: rgba(110, 231, 183, 0.05);
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+}
+
+.check--large {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.check--large input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+}
+
+/* Nystagmus diagram section */
+.nystagmus-diagram-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  margin-bottom: 20px;
+}
+
+.nystagmus-diagram {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.nystagmus-eye-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.nystagmus-eye {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ffffff 0%, #e8e8e8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    inset 0 -4px 8px rgba(0, 0, 0, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  position: relative;
+}
+
+.nystagmus-iris {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #6b8e7a 0%, #3d5c4a 60%, #2a3f32 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.nystagmus-pupil {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #333 0%, #000 70%);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+.nystagmus-eye-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Direction indicator */
+.nystagmus-direction-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.direction-arrow {
+  font-size: 1.8rem;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.direction-label {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+/* Nystagmus animations with CSS custom properties for amplitude/frequency control */
+/* Default values - medium amplitude, moderate frequency */
+.nystagmus-iris {
+  --nys-amplitude: 10px;
+  --nys-duration: 1.2s;
+}
+
+/* Amplitude modifiers */
+.nystagmus-iris.amp-fine {
+  --nys-amplitude: 5px;
+}
+.nystagmus-iris.amp-medium {
+  --nys-amplitude: 10px;
+}
+.nystagmus-iris.amp-coarse {
+  --nys-amplitude: 16px;
+}
+
+/* Frequency modifiers */
+.nystagmus-iris.freq-low {
+  --nys-duration: 2s;
+}
+.nystagmus-iris.freq-moderate {
+  --nys-duration: 1.2s;
+}
+.nystagmus-iris.freq-high {
+  --nys-duration: 0.6s;
+}
+
+/* Jerk nystagmus: SLOW drift away from fast phase direction, then FAST saccade back */
+/* Right-beating = slow drift LEFT, fast correction RIGHT */
+@keyframes nys-jerk-right {
+  0% { transform: translateX(0); }
+  70% { transform: translateX(calc(var(--nys-amplitude) * -1)); }
+  78% { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+/* Left-beating = slow drift RIGHT, fast correction LEFT */
+@keyframes nys-jerk-left {
+  0% { transform: translateX(0); }
+  70% { transform: translateX(var(--nys-amplitude)); }
+  78% { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+/* Upbeat = slow drift DOWN, fast correction UP */
+@keyframes nys-jerk-up {
+  0% { transform: translateY(0); }
+  70% { transform: translateY(var(--nys-amplitude)); }
+  78% { transform: translateY(0); }
+  100% { transform: translateY(0); }
+}
+
+/* Downbeat = slow drift UP, fast correction DOWN */
+@keyframes nys-jerk-down {
+  0% { transform: translateY(0); }
+  70% { transform: translateY(calc(var(--nys-amplitude) * -1)); }
+  78% { transform: translateY(0); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes nys-pendular-h {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(var(--nys-amplitude)); }
+  75% { transform: translateX(calc(var(--nys-amplitude) * -1)); }
+}
+
+@keyframes nys-pendular-v {
+  0%, 100% { transform: translateY(0); }
+  25% { transform: translateY(calc(var(--nys-amplitude) * -1)); }
+  75% { transform: translateY(var(--nys-amplitude)); }
+}
+
+@keyframes nys-torsional {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(12deg); }
+  75% { transform: rotate(-12deg); }
+}
+
+@keyframes nys-mixed {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(var(--nys-amplitude), calc(var(--nys-amplitude) * -0.6)); }
+  40% { transform: translate(calc(var(--nys-amplitude) * -0.6), var(--nys-amplitude)); }
+  60% { transform: translate(calc(var(--nys-amplitude) * 0.4), calc(var(--nys-amplitude) * 0.4)); }
+  80% { transform: translate(calc(var(--nys-amplitude) * -1), calc(var(--nys-amplitude) * -0.4)); }
+}
+
+@keyframes nys-seesaw-left {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(calc(var(--nys-amplitude) * -0.8)) rotate(8deg); }
+}
+
+@keyframes nys-seesaw-right {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(calc(var(--nys-amplitude) * 0.8)) rotate(-8deg); }
+}
+
+@keyframes nys-convergence {
+  0% { transform: translateX(0); }
+  60% { transform: translateX(calc(var(--nys-amplitude) * -0.8)); }
+  70% { transform: translateX(calc(var(--nys-amplitude) * 0.6)); }
+  80% { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes nys-dissociated-fast {
+  0% { transform: translateX(0); }
+  60% { transform: translateX(calc(var(--nys-amplitude) * -1)); }
+  70% { transform: translateX(calc(var(--nys-amplitude) * 0.4)); }
+  80% { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes nys-dissociated-slow {
+  0% { transform: translateX(0); }
+  70% { transform: translateX(calc(var(--nys-amplitude) * -0.5)); }
+  80% { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+/* Animation classes - applied to .nystagmus-iris to move entire eye */
+/* Uses var(--nys-duration) for user-controlled frequency */
+/* Linear timing shows the slow drift + fast saccade more clearly */
+.nystagmus-iris.nys-jerk-right {
+  animation: nys-jerk-right var(--nys-duration) linear infinite;
+}
+
+.nystagmus-iris.nys-jerk-left {
+  animation: nys-jerk-left var(--nys-duration) linear infinite;
+}
+
+.nystagmus-iris.nys-jerk-up {
+  animation: nys-jerk-up var(--nys-duration) linear infinite;
+}
+
+.nystagmus-iris.nys-jerk-down {
+  animation: nys-jerk-down var(--nys-duration) linear infinite;
+}
+
+.nystagmus-iris.nys-pendular-h {
+  animation: nys-pendular-h var(--nys-duration) ease-in-out infinite;
+}
+
+.nystagmus-iris.nys-pendular-v {
+  animation: nys-pendular-v var(--nys-duration) ease-in-out infinite;
+}
+
+.nystagmus-iris.nys-torsional {
+  animation: nys-torsional var(--nys-duration) ease-in-out infinite;
+}
+
+.nystagmus-iris.nys-mixed {
+  animation: nys-mixed calc(var(--nys-duration) * 0.5) ease-in-out infinite;
+}
+
+.nystagmus-iris.nys-seesaw {
+  animation: nys-seesaw-left var(--nys-duration) ease-in-out infinite;
+}
+
+#nystagmusEyeRight .nystagmus-iris.nys-seesaw {
+  animation: nys-seesaw-right var(--nys-duration) ease-in-out infinite;
+}
+
+.nystagmus-iris.nys-convergence {
+  animation: nys-convergence var(--nys-duration) ease-in-out infinite;
+}
+
+#nystagmusEyeLeft .nystagmus-iris.nys-convergence {
+  animation-direction: reverse;
+}
+
+.nystagmus-iris.nys-dissociated-left {
+  animation: nys-dissociated-slow var(--nys-duration) ease-in-out infinite;
+}
+
+.nystagmus-iris.nys-dissociated-right {
+  animation: nys-dissociated-fast var(--nys-duration) ease-in-out infinite;
+}
+
+/* Radio group styling */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.radio-label input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+}
+
+/* Category badge for nystagmus */
+.dx-category--nystagmus {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+/* Small muted helper text */
+.muted {
+  color: var(--muted);
+}
+
+/* Section description */
+.section-desc {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+/* Nystagmus responsive */
+@media (max-width: 768px) {
+  .nystagmus-diagram {
+    gap: 20px;
+  }
+
+  .nystagmus-eye {
+    width: 60px;
+    height: 60px;
+  }
+
+  .nystagmus-iris {
+    width: 35px;
+    height: 35px;
+  }
+
+  .nystagmus-pupil {
+    width: 14px;
+    height: 14px;
   }
 }

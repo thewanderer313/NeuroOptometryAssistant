@@ -310,7 +310,31 @@ function syncFromSession(session) {
   updateGazeGrids(session);
 }
 
+// Tab switching
+function initTabs() {
+  const tabs = document.querySelectorAll(".page-tab");
+  const contents = document.querySelectorAll(".tab-content");
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      const targetId = `tab-${tab.dataset.tab}`;
+
+      // Update active tab
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      // Update visible content
+      contents.forEach(c => {
+        c.classList.toggle("active", c.id === targetId);
+      });
+    });
+  });
+}
+
 function bind() {
+  // Initialize tabs
+  initTabs();
+
   $("diplopia").addEventListener("change", e => sessionStore.set("eom.diplopia", e.target.checked));
   $("ptosis").addEventListener("change", e => sessionStore.set("eom.ptosis", e.target.checked));
   $("fatigable").addEventListener("change", e => sessionStore.set("eom.fatigable", e.target.checked));

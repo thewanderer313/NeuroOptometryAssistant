@@ -72,6 +72,47 @@ const defaultSession = () => ({
     centralScotoma: false,
     congruity: "",
     notes: ""
+  },
+  nystagmus: {
+    present: false,
+
+    // Type classification
+    type: "",              // "jerk", "pendular", "mixed"
+    waveform: "",          // "horizontal", "vertical", "torsional", "mixed"
+
+    // Direction (for jerk nystagmus - fast phase direction)
+    fastPhase: "",         // "right", "left", "up", "down", "clockwise", "counterclockwise"
+
+    // Characteristics
+    amplitude: "",         // "fine", "medium", "coarse"
+    frequency: "",         // "low", "moderate", "high"
+
+    // Gaze dependency
+    primaryPosition: false,      // Present in primary gaze
+    gazeEvoked: false,           // Increases with eccentric gaze
+    gazeEvokedDirection: "",     // "right", "left", "up", "down", "all"
+    downbeatPrimary: false,      // Downbeat in primary position
+    upbeatPrimary: false,        // Upbeat in primary position
+
+    // Special patterns
+    convergenceRetraction: false,  // Parinaud syndrome
+    seesaw: false,                 // Parasellar lesions
+    periodicAlternating: false,    // PAN - cerebellar
+    dissociated: false,            // INO pattern - asymmetric between eyes
+    latent: false,                 // Only with monocular viewing
+
+    // Associated symptoms
+    oscillopsia: false,           // Perception of visual motion
+    vertigo: false,
+    headShaking: false,           // Compensatory head movement
+    headTilt: false,              // Null point compensation
+
+    // Vestibular signs
+    positional: false,            // Position-dependent (BPPV pattern)
+    spontaneous: false,           // Present without provocation
+    directionChanging: false,     // Changes direction with gaze position
+
+    notes: ""
   }
 
 });
@@ -96,7 +137,8 @@ class SessionStore {
         pupils: { ...d.pupils, ...(parsed.pupils || {}) },
         opticNerve: { ...d.opticNerve, ...(parsed.opticNerve || {}) },
         eom: { ...d.eom, ...(parsed.eom || {}) },
-        visualFields: { ...d.visualFields, ...(parsed.visualFields || {}) }
+        visualFields: { ...d.visualFields, ...(parsed.visualFields || {}) },
+        nystagmus: { ...d.nystagmus, ...(parsed.nystagmus || {}) }
       };
     } catch {
       return defaultSession();

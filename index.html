@@ -23,6 +23,7 @@
       <a href="./anisocoria.html">Anisocoria</a>
       <a href="./eom.html">EOM / Lesion</a>
       <a href="./visual-fields.html">Visual Fields</a>
+      <a href="./nystagmus.html">Nystagmus</a>
     </nav>
   </div>
 
@@ -34,6 +35,7 @@
         <a href="./anisocoria.html">Anisocoria</a>
         <a href="./eom.html">EOM / Lesion</a>
         <a href="./visual-fields.html">Visual Fields</a>
+        <a href="./nystagmus.html">Nystagmus</a>
       </div>
 
       <section class="card">
@@ -95,7 +97,14 @@
           <a class="check" href="./visual-fields.html" style="text-decoration:none;">
             <span style="font-weight:950;">Visual Fields</span>
             <span class="small" style="display:block; margin-top:6px; color:var(--muted);">
-              Placeholder page • next build: pattern recognition and localization prompts
+              Pattern recognition • homonymous, bitemporal, altitudinal localization
+            </span>
+          </a>
+
+          <a class="check" href="./nystagmus.html" style="text-decoration:none;">
+            <span style="font-weight:950;">Nystagmus</span>
+            <span class="small" style="display:block; margin-top:6px; color:var(--muted);">
+              Type, direction, gaze patterns • vestibular vs central localization
             </span>
           </a>
         </div>
@@ -203,6 +212,26 @@
           <button class="preset-btn" id="scenarioCavernous" title="Cavernous sinus syndrome">
             <span class="preset-icon">⊗</span>
             <span class="preset-label">Cavernous Sinus</span>
+          </button>
+        </div>
+
+        <h3>Nystagmus Patterns</h3>
+        <div class="preset-row">
+          <button class="preset-btn preset-btn--urgent" id="scenarioDownbeat" title="Craniocervical junction lesion">
+            <span class="preset-icon">↓</span>
+            <span class="preset-label">Downbeat Nyst.</span>
+          </button>
+          <button class="preset-btn" id="scenarioParinaud" title="Dorsal midbrain syndrome">
+            <span class="preset-icon">⟷</span>
+            <span class="preset-label">Parinaud</span>
+          </button>
+          <button class="preset-btn" id="scenarioBPPV" title="Benign paroxysmal positional vertigo">
+            <span class="preset-icon">↻</span>
+            <span class="preset-label">BPPV</span>
+          </button>
+          <button class="preset-btn" id="scenarioVestibularNeuritis" title="Acute peripheral vestibular">
+            <span class="preset-icon">→</span>
+            <span class="preset-label">Vest. Neuritis</span>
           </button>
         </div>
 
@@ -500,6 +529,84 @@
           sessionStore.set("eom.notes", "Multiple CN involvement (III, IV, V1, VI) - cavernous sinus localization");
           break;
 
+        // ======= NYSTAGMUS SCENARIOS =======
+
+        case "downbeat":
+          // Downbeat nystagmus - craniocervical junction
+          sessionStore.set("triage.acuteOnset", true);
+          sessionStore.set("triage.neuroSx", true);
+          sessionStore.set("pupils.odLight", 3.5);
+          sessionStore.set("pupils.osLight", 3.5);
+          sessionStore.set("pupils.odDark", 5.5);
+          sessionStore.set("pupils.osDark", 5.5);
+          sessionStore.set("pupils.odLightRxn", "brisk");
+          sessionStore.set("pupils.osLightRxn", "brisk");
+          sessionStore.set("nystagmus.present", true);
+          sessionStore.set("nystagmus.type", "jerk");
+          sessionStore.set("nystagmus.waveform", "vertical");
+          sessionStore.set("nystagmus.fastPhase", "down");
+          sessionStore.set("nystagmus.primaryPosition", true);
+          sessionStore.set("nystagmus.downbeatPrimary", true);
+          sessionStore.set("nystagmus.oscillopsia", true);
+          sessionStore.set("nystagmus.notes", "Downbeat worse in lateral gaze - craniocervical junction localization");
+          break;
+
+        case "parinaudNys":
+          // Parinaud syndrome with convergence-retraction nystagmus
+          sessionStore.set("triage.neuroSx", true);
+          sessionStore.set("pupils.odLight", 4.0);
+          sessionStore.set("pupils.osLight", 4.0);
+          sessionStore.set("pupils.odDark", 5.5);
+          sessionStore.set("pupils.osDark", 5.5);
+          sessionStore.set("pupils.odLightRxn", "sluggish");
+          sessionStore.set("pupils.osLightRxn", "sluggish");
+          sessionStore.set("pupils.lightNearDissociation", true);
+          sessionStore.set("eom.verticalLimitation", true);
+          sessionStore.set("nystagmus.present", true);
+          sessionStore.set("nystagmus.type", "jerk");
+          sessionStore.set("nystagmus.waveform", "mixed");
+          sessionStore.set("nystagmus.convergenceRetraction", true);
+          sessionStore.set("nystagmus.primaryPosition", true);
+          sessionStore.set("nystagmus.notes", "Parinaud syndrome - dorsal midbrain");
+          break;
+
+        case "bppv":
+          // BPPV - benign paroxysmal positional vertigo
+          sessionStore.set("pupils.odLight", 3.5);
+          sessionStore.set("pupils.osLight", 3.5);
+          sessionStore.set("pupils.odDark", 5.5);
+          sessionStore.set("pupils.osDark", 5.5);
+          sessionStore.set("pupils.odLightRxn", "brisk");
+          sessionStore.set("pupils.osLightRxn", "brisk");
+          sessionStore.set("nystagmus.present", true);
+          sessionStore.set("nystagmus.type", "jerk");
+          sessionStore.set("nystagmus.waveform", "mixed");
+          sessionStore.set("nystagmus.positional", true);
+          sessionStore.set("nystagmus.vertigo", true);
+          sessionStore.set("nystagmus.amplitude", "medium");
+          sessionStore.set("nystagmus.notes", "Torsional-vertical with Dix-Hallpike - posterior canal BPPV");
+          break;
+
+        case "vestibularNeuritis":
+          // Acute vestibular neuritis
+          sessionStore.set("triage.acuteOnset", true);
+          sessionStore.set("pupils.odLight", 3.5);
+          sessionStore.set("pupils.osLight", 3.5);
+          sessionStore.set("pupils.odDark", 5.5);
+          sessionStore.set("pupils.osDark", 5.5);
+          sessionStore.set("pupils.odLightRxn", "brisk");
+          sessionStore.set("pupils.osLightRxn", "brisk");
+          sessionStore.set("nystagmus.present", true);
+          sessionStore.set("nystagmus.type", "jerk");
+          sessionStore.set("nystagmus.waveform", "horizontal");
+          sessionStore.set("nystagmus.fastPhase", "right");
+          sessionStore.set("nystagmus.primaryPosition", true);
+          sessionStore.set("nystagmus.spontaneous", true);
+          sessionStore.set("nystagmus.vertigo", true);
+          sessionStore.set("nystagmus.oscillopsia", true);
+          sessionStore.set("nystagmus.notes", "Acute unidirectional horizontal - peripheral vestibular pattern");
+          break;
+
         case "clear":
           // Already reset above, just return
           break;
@@ -526,6 +633,11 @@
     $("scenarioTED").addEventListener("click", () => applyScenario("ted"));
     $("scenarioINO").addEventListener("click", () => applyScenario("ino"));
     $("scenarioCavernous").addEventListener("click", () => applyScenario("cavernous"));
+
+    $("scenarioDownbeat").addEventListener("click", () => applyScenario("downbeat"));
+    $("scenarioParinaud").addEventListener("click", () => applyScenario("parinaudNys"));
+    $("scenarioBPPV").addEventListener("click", () => applyScenario("bppv"));
+    $("scenarioVestibularNeuritis").addEventListener("click", () => applyScenario("vestibularNeuritis"));
 
     $("scenarioClear").addEventListener("click", () => applyScenario("clear"));
   </script>
