@@ -1430,3 +1430,355 @@ section.card[id] {
     flex-direction: column;
   }
 }
+
+/* ========================================
+   NYSTAGMUS MODULE STYLES
+   ======================================== */
+
+/* Nystagmus present toggle */
+.nystagmus-toggle {
+  margin: 16px 0;
+  padding: 12px 16px;
+  background: rgba(110, 231, 183, 0.05);
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+}
+
+.check--large {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.check--large input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+}
+
+/* Nystagmus diagram section */
+.nystagmus-diagram-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  margin-bottom: 20px;
+}
+
+.nystagmus-diagram {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.nystagmus-eye-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.nystagmus-eye {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ffffff 0%, #e8e8e8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    inset 0 -4px 8px rgba(0, 0, 0, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  position: relative;
+}
+
+.nystagmus-iris {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #6b8e7a 0%, #3d5c4a 60%, #2a3f32 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.nystagmus-pupil {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #333 0%, #000 70%);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+.nystagmus-eye-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Direction indicator */
+.nystagmus-direction-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.direction-arrow {
+  font-size: 1.8rem;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.direction-label {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+/* Nystagmus animations with CSS custom properties for amplitude/frequency control */
+/* Default values - medium amplitude, moderate frequency */
+.nystagmus-iris {
+  --nys-amplitude: 10px;
+  --nys-duration: 1.2s;
+}
+
+/* Amplitude modifiers */
+.nystagmus-iris.amp-fine {
+  --nys-amplitude: 5px;
+}
+.nystagmus-iris.amp-medium {
+  --nys-amplitude: 10px;
+}
+.nystagmus-iris.amp-coarse {
+  --nys-amplitude: 16px;
+}
+
+/* Frequency modifiers */
+.nystagmus-iris.freq-low {
+  --nys-duration: 2s;
+}
+.nystagmus-iris.freq-moderate {
+  --nys-duration: 1.2s;
+}
+.nystagmus-iris.freq-high {
+  --nys-duration: 0.6s;
+}
+
+/* Jerk nystagmus: SLOW drift away from fast phase direction, then FAST saccade back */
+/* Right-beating = slow drift LEFT, fast correction RIGHT */
+@keyframes nys-jerk-right {
+  0% { transform: translateX(0); }
+  70% { transform: translateX(calc(var(--nys-amplitude) * -1)); }
+  78% { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+/* Left-beating = slow drift RIGHT, fast correction LEFT */
+@keyframes nys-jerk-left {
+  0% { transform: translateX(0); }
+  70% { transform: translateX(var(--nys-amplitude)); }
+  78% { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+/* Upbeat = slow drift DOWN, fast correction UP */
+@keyframes nys-jerk-up {
+  0% { transform: translateY(0); }
+  70% { transform: translateY(var(--nys-amplitude)); }
+  78% { transform: translateY(0); }
+  100% { transform: translateY(0); }
+}
+
+/* Downbeat = slow drift UP, fast correction DOWN */
+@keyframes nys-jerk-down {
+  0% { transform: translateY(0); }
+  70% { transform: translateY(calc(var(--nys-amplitude) * -1)); }
+  78% { transform: translateY(0); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes nys-pendular-h {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(var(--nys-amplitude)); }
+  75% { transform: translateX(calc(var(--nys-amplitude) * -1)); }
+}
+
+@keyframes nys-pendular-v {
+  0%, 100% { transform: translateY(0); }
+  25% { transform: translateY(calc(var(--nys-amplitude) * -1)); }
+  75% { transform: translateY(var(--nys-amplitude)); }
+}
+
+@keyframes nys-torsional {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(12deg); }
+  75% { transform: rotate(-12deg); }
+}
+
+@keyframes nys-mixed {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(var(--nys-amplitude), calc(var(--nys-amplitude) * -0.6)); }
+  40% { transform: translate(calc(var(--nys-amplitude) * -0.6), var(--nys-amplitude)); }
+  60% { transform: translate(calc(var(--nys-amplitude) * 0.4), calc(var(--nys-amplitude) * 0.4)); }
+  80% { transform: translate(calc(var(--nys-amplitude) * -1), calc(var(--nys-amplitude) * -0.4)); }
+}
+
+@keyframes nys-seesaw-left {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(calc(var(--nys-amplitude) * -0.8)) rotate(8deg); }
+}
+
+@keyframes nys-seesaw-right {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(calc(var(--nys-amplitude) * 0.8)) rotate(-8deg); }
+}
+
+@keyframes nys-convergence {
+  0% { transform: translateX(0); }
+  60% { transform: translateX(calc(var(--nys-amplitude) * -0.8)); }
+  70% { transform: translateX(calc(var(--nys-amplitude) * 0.6)); }
+  80% { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes nys-dissociated-fast {
+  0% { transform: translateX(0); }
+  60% { transform: translateX(calc(var(--nys-amplitude) * -1)); }
+  70% { transform: translateX(calc(var(--nys-amplitude) * 0.4)); }
+  80% { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes nys-dissociated-slow {
+  0% { transform: translateX(0); }
+  70% { transform: translateX(calc(var(--nys-amplitude) * -0.5)); }
+  80% { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+/* Animation classes - applied to .nystagmus-iris to move entire eye */
+/* Uses var(--nys-duration) for user-controlled frequency */
+/* Linear timing shows the slow drift + fast saccade more clearly */
+.nystagmus-iris.nys-jerk-right {
+  animation: nys-jerk-right var(--nys-duration) linear infinite;
+}
+
+.nystagmus-iris.nys-jerk-left {
+  animation: nys-jerk-left var(--nys-duration) linear infinite;
+}
+
+.nystagmus-iris.nys-jerk-up {
+  animation: nys-jerk-up var(--nys-duration) linear infinite;
+}
+
+.nystagmus-iris.nys-jerk-down {
+  animation: nys-jerk-down var(--nys-duration) linear infinite;
+}
+
+.nystagmus-iris.nys-pendular-h {
+  animation: nys-pendular-h var(--nys-duration) ease-in-out infinite;
+}
+
+.nystagmus-iris.nys-pendular-v {
+  animation: nys-pendular-v var(--nys-duration) ease-in-out infinite;
+}
+
+.nystagmus-iris.nys-torsional {
+  animation: nys-torsional var(--nys-duration) ease-in-out infinite;
+}
+
+.nystagmus-iris.nys-mixed {
+  animation: nys-mixed calc(var(--nys-duration) * 0.5) ease-in-out infinite;
+}
+
+.nystagmus-iris.nys-seesaw {
+  animation: nys-seesaw-left var(--nys-duration) ease-in-out infinite;
+}
+
+#nystagmusEyeRight .nystagmus-iris.nys-seesaw {
+  animation: nys-seesaw-right var(--nys-duration) ease-in-out infinite;
+}
+
+.nystagmus-iris.nys-convergence {
+  animation: nys-convergence var(--nys-duration) ease-in-out infinite;
+}
+
+#nystagmusEyeLeft .nystagmus-iris.nys-convergence {
+  animation-direction: reverse;
+}
+
+.nystagmus-iris.nys-dissociated-left {
+  animation: nys-dissociated-slow var(--nys-duration) ease-in-out infinite;
+}
+
+.nystagmus-iris.nys-dissociated-right {
+  animation: nys-dissociated-fast var(--nys-duration) ease-in-out infinite;
+}
+
+/* Radio group styling */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.radio-label input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+}
+
+/* Category badge for nystagmus */
+.dx-category--nystagmus {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+/* Small muted helper text */
+.muted {
+  color: var(--muted);
+}
+
+/* Section description */
+.section-desc {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+/* Nystagmus responsive */
+@media (max-width: 768px) {
+  .nystagmus-diagram {
+    gap: 20px;
+  }
+
+  .nystagmus-eye {
+    width: 60px;
+    height: 60px;
+  }
+
+  .nystagmus-iris {
+    width: 35px;
+    height: 35px;
+  }
+
+  .nystagmus-pupil {
+    width: 14px;
+    height: 14px;
+  }
+}

@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nystagmus Module</title>
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>Neuro-Ophtho Assistant</h1>
+      <p class="sub">Modules share one live clinical session • persistent differential</p>
+    </div>
+    <div class="pill">Local • No network calls</div>
+  </header>
+
+  <div class="tabbar">
+    <nav class="tabbarInner">
+      <a href="./index.html">Home</a>
+      <a href="./anisocoria.html">Anisocoria</a>
+      <a href="./eom.html">EOM / Lesion</a>
+      <a href="./visual-fields.html">Visual Fields</a>
+      <a href="./nystagmus.html">Nystagmus</a>
+    </nav>
+  </div>
+
+  <div class="shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="nav">
+        <a href="./anisocoria.html">Anisocoria</a>
+        <a href="./eom.html">EOM / Lesion</a>
+        <a href="./visual-fields.html">Visual Fields</a>
+        <a href="./nystagmus.html">Nystagmus</a>
+      </div>
+
+      <section class="card">
+        <h2>Session</h2>
+        <div class="small"><strong id="sbPatient">Untitled</strong></div>
+        <div class="small" id="sbUpdated"></div>
+
+        <h3>Nystagmus Pattern</h3>
+        <div class="small">Type: <strong id="sbNysType">—</strong></div>
+        <div class="small">Waveform: <strong id="sbNysWaveform">—</strong></div>
+        <div class="small">Direction: <strong id="sbNysDirection">—</strong></div>
+
+        <div class="btnRow">
+          <button class="ghost" id="sbReset">Reset session</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Urgency</h2>
+        <div class="callout" id="sbUrgency" data-level="none">—</div>
+      </section>
+
+      <section class="card">
+        <h2>Top Differential</h2>
+        <div id="sbDx"></div>
+      </section>
+
+      <section class="card">
+        <h2>Recommended Testing</h2>
+        <div id="sbTests"></div>
+      </section>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <section class="card">
+        <h2>Nystagmus Assessment</h2>
+
+        <!-- In-page tab navigation -->
+        <div class="page-tabs">
+          <button class="page-tab active" data-tab="characteristics">Characteristics</button>
+          <button class="page-tab" data-tab="gaze">Gaze Patterns</button>
+          <button class="page-tab" data-tab="associated">Associated Signs</button>
+          <button class="page-tab" data-tab="presets">Presets</button>
+        </div>
+
+        <!-- Tab: Characteristics -->
+        <div class="tab-content active" id="tab-characteristics">
+          <!-- Triage alerts -->
+          <div class="triage-bar">
+            <span class="triage-label">Triage flags:</span>
+            <label class="triage-chip"><input type="checkbox" id="acuteOnset"> Acute</label>
+            <label class="triage-chip"><input type="checkbox" id="painful"> Pain</label>
+            <label class="triage-chip"><input type="checkbox" id="neuroSx"> Neuro Sx</label>
+            <label class="triage-chip"><input type="checkbox" id="trauma"> Trauma</label>
+          </div>
+
+          <!-- Nystagmus Present Toggle -->
+          <div class="nystagmus-toggle">
+            <label class="check check--large">
+              <input type="checkbox" id="nystagmusPresent">
+              <span>Nystagmus Present</span>
+            </label>
+          </div>
+
+          <!-- Visual Eye Movement Diagram -->
+          <div class="nystagmus-diagram-section">
+            <div class="nystagmus-diagram">
+              <div class="nystagmus-eye-container">
+                <div class="nystagmus-eye" id="nystagmusEyeLeft">
+                  <div class="nystagmus-iris">
+                    <div class="nystagmus-pupil" id="nystagmusPupilLeft"></div>
+                  </div>
+                </div>
+                <div class="nystagmus-eye-label">OS</div>
+              </div>
+              <div class="nystagmus-eye-container">
+                <div class="nystagmus-eye" id="nystagmusEyeRight">
+                  <div class="nystagmus-iris">
+                    <div class="nystagmus-pupil" id="nystagmusPupilRight"></div>
+                  </div>
+                </div>
+                <div class="nystagmus-eye-label">OD</div>
+              </div>
+            </div>
+            <div class="nystagmus-direction-indicator">
+              <span class="direction-arrow" id="directionArrow">→</span>
+              <span class="direction-label" id="directionLabel">Select type & direction</span>
+            </div>
+          </div>
+
+          <!-- Type and Waveform Selection -->
+          <div class="measurement-grid">
+            <div class="measurement-group">
+              <h4>Nystagmus Type</h4>
+              <label class="compact-label">
+                Type
+                <select id="nystagmusType">
+                  <option value="">--</option>
+                  <option value="jerk">Jerk (slow drift + fast phase)</option>
+                  <option value="pendular">Pendular (equal velocity)</option>
+                  <option value="mixed">Mixed/Chaotic</option>
+                </select>
+              </label>
+              <label class="compact-label">
+                Waveform
+                <select id="nystagmusWaveform">
+                  <option value="">--</option>
+                  <option value="horizontal">Horizontal</option>
+                  <option value="vertical">Vertical</option>
+                  <option value="torsional">Torsional (rotary)</option>
+                  <option value="mixed">Mixed</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="measurement-group">
+              <h4>Fast Phase Direction</h4>
+              <label class="compact-label">
+                Direction
+                <select id="fastPhase">
+                  <option value="">--</option>
+                  <option value="right">Right-beating</option>
+                  <option value="left">Left-beating</option>
+                  <option value="up">Upbeat</option>
+                  <option value="down">Downbeat</option>
+                  <option value="clockwise">Clockwise (from patient's view)</option>
+                  <option value="counterclockwise">Counterclockwise</option>
+                </select>
+              </label>
+              <div class="small muted">(Direction of fast corrective phase in jerk nystagmus)</div>
+            </div>
+          </div>
+
+          <!-- Amplitude and Frequency -->
+          <div class="measurement-grid">
+            <div class="measurement-group">
+              <h4>Amplitude</h4>
+              <div class="radio-group">
+                <label class="radio-label"><input type="radio" name="amplitude" value="fine" id="ampFine"> Fine (&lt;5°)</label>
+                <label class="radio-label"><input type="radio" name="amplitude" value="medium" id="ampMedium"> Medium (5-15°)</label>
+                <label class="radio-label"><input type="radio" name="amplitude" value="coarse" id="ampCoarse"> Coarse (&gt;15°)</label>
+              </div>
+            </div>
+
+            <div class="measurement-group">
+              <h4>Frequency</h4>
+              <div class="radio-group">
+                <label class="radio-label"><input type="radio" name="frequency" value="low" id="freqLow"> Low (&lt;1 Hz)</label>
+                <label class="radio-label"><input type="radio" name="frequency" value="moderate" id="freqModerate"> Moderate (1-3 Hz)</label>
+                <label class="radio-label"><input type="radio" name="frequency" value="high" id="freqHigh"> High (&gt;3 Hz)</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Guidance panel -->
+          <div class="guidance-panel">
+            <div class="guidance-item">
+              <span class="guidance-label">Pattern</span>
+              <span class="guidance-value" id="nysLocalize">Enter nystagmus characteristics</span>
+            </div>
+            <div class="guidance-item">
+              <span class="guidance-label">Next step</span>
+              <span class="guidance-value" id="nysNext">--</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Gaze Patterns -->
+        <div class="tab-content" id="tab-gaze">
+          <h3>Gaze Position Dependency</h3>
+          <div class="checkbox-grid">
+            <label class="check"><input type="checkbox" id="primaryPosition"> Present in primary gaze</label>
+            <label class="check"><input type="checkbox" id="gazeEvoked"> Gaze-evoked (eccentric gaze)</label>
+          </div>
+
+          <div class="measurement-group" id="gazeEvokedDirectionGroup" style="margin-top: 12px; display: none;">
+            <label class="compact-label">
+              Gaze-evoked direction
+              <select id="gazeEvokedDirection">
+                <option value="">--</option>
+                <option value="right">Right gaze only</option>
+                <option value="left">Left gaze only</option>
+                <option value="up">Upgaze only</option>
+                <option value="down">Downgaze only</option>
+                <option value="all">All eccentric positions</option>
+              </select>
+            </label>
+          </div>
+
+          <h3>Specific Vertical Patterns</h3>
+          <div class="checkbox-grid">
+            <label class="check"><input type="checkbox" id="downbeatPrimary"> Downbeat in primary position</label>
+            <label class="check"><input type="checkbox" id="upbeatPrimary"> Upbeat in primary position</label>
+          </div>
+
+          <h3>Special Patterns</h3>
+          <div class="checkbox-grid">
+            <label class="check"><input type="checkbox" id="convergenceRetraction"> Convergence-retraction</label>
+            <label class="check"><input type="checkbox" id="seesaw"> Seesaw (one eye up, other down)</label>
+            <label class="check"><input type="checkbox" id="periodicAlternating"> Periodic alternating (PAN)</label>
+            <label class="check"><input type="checkbox" id="dissociated"> Dissociated (asymmetric between eyes)</label>
+            <label class="check"><input type="checkbox" id="latent"> Latent (only with monocular viewing)</label>
+            <label class="check"><input type="checkbox" id="directionChanging"> Direction-changing with gaze</label>
+          </div>
+
+          <div class="guidance-panel">
+            <div class="guidance-item full-width">
+              <span class="guidance-label">Gaze Pattern Interpretation</span>
+              <span class="guidance-value" id="gazeInterpretation">Select gaze patterns to see clinical significance</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Associated Signs -->
+        <div class="tab-content" id="tab-associated">
+          <h3>Symptoms</h3>
+          <div class="checkbox-grid">
+            <label class="check"><input type="checkbox" id="oscillopsia"> Oscillopsia (visual motion)</label>
+            <label class="check"><input type="checkbox" id="vertigo"> Vertigo</label>
+          </div>
+
+          <h3>Compensatory Movements</h3>
+          <div class="checkbox-grid">
+            <label class="check"><input type="checkbox" id="headShaking"> Head shaking/nodding</label>
+            <label class="check"><input type="checkbox" id="headTilt"> Head tilt/turn (null point)</label>
+          </div>
+
+          <h3>Vestibular Characteristics</h3>
+          <div class="checkbox-grid">
+            <label class="check"><input type="checkbox" id="positional"> Position-dependent (BPPV pattern)</label>
+            <label class="check"><input type="checkbox" id="spontaneous"> Spontaneous (without provocation)</label>
+          </div>
+
+          <label class="full">
+            <span>Notes</span>
+            <textarea id="nystagmusNotes" rows="2" placeholder="Additional observations, triggers, time course..."></textarea>
+          </label>
+
+          <div class="guidance-panel">
+            <div class="guidance-item full-width">
+              <span class="guidance-label">Associated Findings</span>
+              <span class="guidance-value" id="associatedInterpretation">Enter associated signs for clinical interpretation</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Presets -->
+        <div class="tab-content" id="tab-presets">
+          <p class="section-desc">Quick-fill common nystagmus patterns for testing or demonstration.</p>
+
+          <h3>Localizing Patterns</h3>
+          <div class="preset-grid">
+            <button class="preset-btn" id="presetDownbeat" title="Craniocervical junction">
+              <span class="preset-icon">↓</span>
+              <span class="preset-label">Downbeat</span>
+            </button>
+            <button class="preset-btn" id="presetUpbeat" title="Pontomedullary">
+              <span class="preset-icon">↑</span>
+              <span class="preset-label">Upbeat</span>
+            </button>
+            <button class="preset-btn" id="presetParinaud" title="Dorsal midbrain">
+              <span class="preset-icon">⟷</span>
+              <span class="preset-label">Conv-Retract</span>
+            </button>
+            <button class="preset-btn" id="presetSeesaw" title="Parasellar">
+              <span class="preset-icon">⤮</span>
+              <span class="preset-label">Seesaw</span>
+            </button>
+          </div>
+
+          <h3>Vestibular Patterns</h3>
+          <div class="preset-grid">
+            <button class="preset-btn" id="presetBPPV" title="Posterior canal BPPV">
+              <span class="preset-icon">↻</span>
+              <span class="preset-label">BPPV</span>
+            </button>
+            <button class="preset-btn" id="presetVestibularNeuritis" title="Peripheral vestibular">
+              <span class="preset-icon">→</span>
+              <span class="preset-label">Vest. Neuritis</span>
+            </button>
+            <button class="preset-btn" id="presetCentralVestibular" title="Central vestibular">
+              <span class="preset-icon">⊗</span>
+              <span class="preset-label">Central Vest.</span>
+            </button>
+            <button class="preset-btn" id="presetPAN" title="Periodic alternating">
+              <span class="preset-icon">↔</span>
+              <span class="preset-label">PAN</span>
+            </button>
+          </div>
+
+          <h3>Other Patterns</h3>
+          <div class="preset-grid">
+            <button class="preset-btn" id="presetINO" title="INO with dissociated nystagmus">
+              <span class="preset-icon">≠</span>
+              <span class="preset-label">INO Pattern</span>
+            </button>
+            <button class="preset-btn" id="presetGazeEvoked" title="Drug-induced">
+              <span class="preset-icon">⇢</span>
+              <span class="preset-label">Gaze-Evoked</span>
+            </button>
+            <button class="preset-btn" id="presetCongenital" title="Infantile nystagmus">
+              <span class="preset-icon">∿</span>
+              <span class="preset-label">Congenital</span>
+            </button>
+            <button class="preset-btn" id="presetOpsoclonus" title="Paraneoplastic">
+              <span class="preset-icon">✦</span>
+              <span class="preset-label">Opsoclonus</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">Tip: open other modules in separate tabs — all pages stay synchronized through the shared session.
+  </footer>
+
+  <script type="module" src="./js/nystagmus.page.js"></script>
+</body>
+
+</html>

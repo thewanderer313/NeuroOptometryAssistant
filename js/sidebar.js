@@ -27,7 +27,8 @@ function getCategoryBadge(category) {
     eom: '<span class="dx-category dx-category--eom">EOM</span>',
     vf: '<span class="dx-category dx-category--vf">VF</span>',
     neuro: '<span class="dx-category dx-category--neuro">Neuro</span>',
-    optic: '<span class="dx-category dx-category--optic">Optic</span>'
+    optic: '<span class="dx-category dx-category--optic">Optic</span>',
+    nystagmus: '<span class="dx-category dx-category--nystagmus">Nystagmus</span>'
   };
   return badges[category] || '';
 }
@@ -152,19 +153,37 @@ function renderTestingRecommendations(tests) {
 }
 
 function renderMeta(session, features) {
-  $("sbPatient").textContent = session.meta.activePatientLabel || "Untitled";
-  $("sbUpdated").textContent = `Updated: ${new Date(session.meta.updatedAt).toLocaleString()}`;
+  const sbPatient = $("sbPatient");
+  const sbUpdated = $("sbUpdated");
+  if (sbPatient) sbPatient.textContent = session.meta.activePatientLabel || "Untitled";
+  if (sbUpdated) sbUpdated.textContent = `Updated: ${new Date(session.meta.updatedAt).toLocaleString()}`;
 
-  $("sbAnisL").textContent = fmtMm(features.anisL);
-  $("sbAnisD").textContent = fmtMm(features.anisD);
+  // Pupil pattern elements (may not exist on all pages)
+  const sbAnisL = $("sbAnisL");
+  const sbAnisD = $("sbAnisD");
+  const sbPattern = $("sbPattern");
 
-  const dom =
-    features.dominance === "light" ? `Light-dominant (≥${CONFIG.ANISO_THRESHOLD_MM} mm)` :
-      features.dominance === "dark" ? `Dark-dominant (≥${CONFIG.ANISO_THRESHOLD_MM} mm)` :
-        features.dominance === "equal" ? `Equal in light/dark (≥${CONFIG.ANISO_THRESHOLD_MM} mm)` :
-          `Not called (<${CONFIG.ANISO_THRESHOLD_MM} mm or missing)`;
+  if (sbAnisL) sbAnisL.textContent = fmtMm(features.anisL);
+  if (sbAnisD) sbAnisD.textContent = fmtMm(features.anisD);
 
-  $("sbPattern").textContent = dom;
+  if (sbPattern) {
+    const dom =
+      features.dominance === "light" ? `Light-dominant (≥${CONFIG.ANISO_THRESHOLD_MM} mm)` :
+        features.dominance === "dark" ? `Dark-dominant (≥${CONFIG.ANISO_THRESHOLD_MM} mm)` :
+          features.dominance === "equal" ? `Equal in light/dark (≥${CONFIG.ANISO_THRESHOLD_MM} mm)` :
+            `Not called (<${CONFIG.ANISO_THRESHOLD_MM} mm or missing)`;
+    sbPattern.textContent = dom;
+  }
+
+  // Nystagmus pattern elements (nystagmus page only)
+  const sbNysType = $("sbNysType");
+  const sbNysWaveform = $("sbNysWaveform");
+  const sbNysDirection = $("sbNysDirection");
+  const n = session.nystagmus || {};
+
+  if (sbNysType) sbNysType.textContent = n.present ? (n.type || "Present") : "—";
+  if (sbNysWaveform) sbNysWaveform.textContent = n.waveform || "—";
+  if (sbNysDirection) sbNysDirection.textContent = n.fastPhase || "—";
 }
 
 export function initSidebar(activePageHref) {
